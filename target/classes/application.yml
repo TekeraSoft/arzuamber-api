@@ -15,17 +15,17 @@ spring:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  jwt:
-    secret_keys: "RDDCT6me8cETAsAiABsYc0FwzLlu4CcNJWMBV8OdGt8Qrt2hleK1W/p/9K8kJuaNcqnsVgZ6PvfR2QcshYBGBqH3MJVekOHlQoyM9VspWkYFNovzBn/QOPiHyLGsaDhB/KIUleVCaMJK3YktQavVvGsFbld1QYXqnkeLZ9jb5tw="
-    expiration: 7200000
-    refresh-token:
-      expiration: 604800000
-
   minio:
     url: http://localhost:9000
     user: arzuamber_user
     password: arzuamber_pass
     bucket-name: arzuamber-bucket
+
+  jwt:
+    secret_keys: "RDDCT6me8cETAsAiABsYc0FwzLlu4CcNJWMBV8OdGt8Qrt2hleK1W/p/9K8kJuaNcqnsVgZ6PvfR2QcshYBGBqH3MJVekOHlQoyM9VspWkYFNovzBn/QOPiHyLGsaDhB/KIUleVCaMJK3YktQavVvGsFbld1QYXqnkeLZ9jb5tw="
+    expiration: 7200000
+    refresh-token:
+      expiration: 604800000
 
   iyzico:
     api_key: sandbox-4mlmZxqqpEvkFn61GClqGpDpt0cYZuA2

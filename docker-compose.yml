@@ -1,16 +1,21 @@
 services:
-  arzuamber:
-    image: postgres
+  # PostgreSQL Database
+  arzuamber-db:
+    image: postgres:latest
     container_name: arzuamber-db
     ports:
-      - 5435:5432
+      - 5435:5432  # Host portu ile container portunu eşliyoruz
     environment:
       - POSTGRES_USER=arzuamber_user
       - POSTGRES_PASSWORD=arzuamber_pass
       - POSTGRES_DB=arzuamber-db
     networks:
       - my-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Veritabanı verilerinin kalıcı olması için volume kullanıyoruz
+    restart: always  # PostgreSQL konteyneri başarısız olsa bile yeniden başlatılsın
 
+  # MinIO (Blob Storage)
   minio:
     image: 'bitnami/minio:latest'
     container_name: arzuamber-blob-storage
@@ -24,10 +29,28 @@ services:
       - minio_data:/data
     networks:
       - my-network
+    restart: always  # MinIO konteyneri başarısız olsa bile yeniden başlatılsın
+
+  # Spring Boot Application
+  arzuamber-api:
+    build:
+      context: .
+    container_name: arzuamber-api
+    depends_on:
+      - arzuamber-db
+      - minio
+    ports:
+      - 9090:8080
+    networks:
+      - my-network
+
 
 networks:
   my-network:
+    driver: bridge  # Aynı ağda çalışan servisler birbirine erişebilsin
 
 volumes:
   minio_data:
     driver: local
+  postgres_data:
+    driver: local  # PostgreSQL veritabanı verilerinin kalıcı olması için volume kullanıyoruz
