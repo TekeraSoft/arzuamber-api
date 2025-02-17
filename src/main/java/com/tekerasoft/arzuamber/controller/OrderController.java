@@ -2,6 +2,7 @@ package com.tekerasoft.arzuamber.controller;
 
 import com.iyzipay.model.ThreedsInitialize;
 import com.iyzipay.model.ThreedsPayment;
+import com.tekerasoft.arzuamber.dto.request.CompleteThreedsRequest;
 import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
 import com.tekerasoft.arzuamber.service.PaymentService;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,9 @@ public class OrderController {
     }
 
     @PostMapping("/complete-threeds")
-    public ResponseEntity<ThreedsPayment> completeThreeds(@RequestParam String paymentId, @RequestParam String conversationId) {
+    public ResponseEntity<ThreedsPayment> completeThreeds(@RequestBody CompleteThreedsRequest req) {
         try {
-            return ResponseEntity.ok(paymentService.completePayment(paymentId, conversationId));
+            return ResponseEntity.ok(paymentService.completePayment(req.getPaymentId(), req.getConversationId()));
         }catch (Exception e) {
             throw new RuntimeException(e);
         }
