@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c7b43e65-a156-4ce9-a6d2-88686d631929" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -197,7 +196,7 @@
       <workItem from="1739712778445" duration="742000" />
       <workItem from="1739713527622" duration="227000" />
       <workItem from="1739713760408" duration="4684000" />
-      <workItem from="1739776765182" duration="5495000" />
+      <workItem from="1739776765182" duration="6505000" />
     </task>
     <servers />
   </component>
