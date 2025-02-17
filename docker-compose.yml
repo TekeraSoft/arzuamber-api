@@ -13,7 +13,6 @@ services:
       - my-network
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Veritabanı verilerinin kalıcı olması için volume kullanıyoruz
-    restart: always  # PostgreSQL konteyneri başarısız olsa bile yeniden başlatılsın
 
   # MinIO (Blob Storage)
   minio:
@@ -29,7 +28,6 @@ services:
       - minio_data:/data
     networks:
       - my-network
-    restart: always  # MinIO konteyneri başarısız olsa bile yeniden başlatılsın
 
   # Spring Boot Application
   arzuamber-api:
