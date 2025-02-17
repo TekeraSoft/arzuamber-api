@@ -55,7 +55,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("https://arzuamber.com","https://www.arzuamber.com")); // İzin verilen origin
+        configuration.setAllowedOrigins(Arrays.asList("https://arzuamber.com","https://www.arzuamber.com","http://arzuamber.com","http://www.arzuamber.com")); // İzin verilen origin
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // İzin verilen HTTP metodları
         configuration.setAllowedHeaders(Arrays.asList("*")); // İzin verilen başlıklar
         configuration.setAllowCredentials(true); // Kimlik doğrulama bilgilerini dahil et (örn. Cookie)

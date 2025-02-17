@@ -8,9 +8,9 @@ COPY .mvn .mvn
 # Bağımlılıkları çöz
 RUN ./mvnw dependency:resolve
 
-# Kaynak kodunu kopyala ve paketi oluştur
+# Source code copy and Create package
 COPY src src
-RUN ./mvnw package -DskipTests  # Test aşamasını atla
+RUN ./mvnw package -DskipTests  # Skip Test
 
 FROM openjdk:17
 WORKDIR /arzuamber

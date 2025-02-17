@@ -5,58 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7b43e65-a156-4ce9-a6d2-88686d631929" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/arzuamber.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/config/AppConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/config/AppConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/CategoryDto$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/CategoryDto$Companion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/CategoryDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/CategoryDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ColorSizeDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ColorSizeDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ProductDto$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ProductDto$Companion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ProductDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ProductDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/SizeStockDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/SizeStockDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/UserDto$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/UserDto$Companion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/UserDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/UserDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Address.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/BasketItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/BasketItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Buyer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Buyer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateCategoryRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateCategoryRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateColorSizeRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateColorSizeRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreatePaymentRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreatePaymentRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateProductRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateProductRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateUserRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateUserRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/LoginRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/PaymentCard.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/PaymentCard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/PriceUpdatePercentageRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/PriceUpdatePercentageRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/SizeStockRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/SizeStockRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/UpdateProductRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/UpdateProductRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/response/JwtResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/response/JwtResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/exception/GeneralExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/exception/GeneralExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Category.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/ColorSize.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/ColorSize.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/SizeStock.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/SizeStock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/AuthService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/CategoryService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/FileService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/FileService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/PaymentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/PaymentService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/utils/SlugGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/utils/SlugGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,7 +196,8 @@
       <workItem from="1739712656528" duration="116000" />
       <workItem from="1739712778445" duration="742000" />
       <workItem from="1739713527622" duration="227000" />
-      <workItem from="1739713760408" duration="1251000" />
+      <workItem from="1739713760408" duration="4684000" />
+      <workItem from="1739776765182" duration="5495000" />
     </task>
     <servers />
   </component>
