@@ -75,7 +75,7 @@ public class PaymentService {
                 request.setBillingAddress(shippingAddress);
             }
 
-            request.setCallbackUrl("https://arzuamber.com/tr/callback");
+            request.setCallbackUrl("https://arzuamber.com/v1-api/api/order/complete-threeds");
 
             List<BasketItem> basketItems = new ArrayList<>();
             for (com.tekerasoft.arzuamber.dto.request.BasketItem bi : req.getBasketItems()) {
@@ -97,9 +97,6 @@ public class PaymentService {
             BigDecimal totalPrice = basketItems.stream()
                     .map(BasketItem::getPrice)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-// Kontrol amaçlı ekrana yazdıralım
-            System.out.println("Toplam Tutar: " + totalPrice);
 
 // Toplam fiyatı request içine ekleyelim
             request.setPrice(totalPrice);

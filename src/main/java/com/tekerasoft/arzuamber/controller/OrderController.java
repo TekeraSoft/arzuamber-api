@@ -5,8 +5,12 @@ import com.iyzipay.model.ThreedsPayment;
 import com.tekerasoft.arzuamber.dto.request.CompleteThreedsRequest;
 import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
 import com.tekerasoft.arzuamber.service.PaymentService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/api/order")
@@ -23,11 +27,28 @@ public class OrderController {
     }
 
     @PostMapping("/complete-threeds")
-    public ResponseEntity<ThreedsPayment> completeThreeds(@RequestBody CompleteThreedsRequest req) {
+    public ResponseEntity<String> completeThreeds(HttpServletRequest request, HttpServletResponse response) {
         try {
-            return ResponseEntity.ok(paymentService.completePayment(req.getPaymentId(), req.getConversationId()));
-        }catch (Exception e) {
+            // Ödeme servis sağlayıcısının gönderdiği parametreleri al
+            Map<String, String[]> parameters = request.getParameterMap();
+            String paymentId = parameters.containsKey("paymentId") ? parameters.get("paymentId")[0] : null;
+            String conversationId = parameters.containsKey("conversationId") ? parameters.get("conversationId")[0] : null;
+
+            if (paymentId == null || conversationId == null) {
+                return ResponseEntity.badRequest().body("Eksik ödeme bilgisi");
+            }
+
+            ThreedsPayment payment = paymentService.completePayment(paymentId, conversationId);
+
+            // Ödeme başarılıysa frontend’e yönlendir
+            if ("success".equalsIgnoreCase(payment.getStatus())) {
+                response.sendRedirect("http://localhost:3000");
+            } else {
+                response.sendRedirect("http://localhost:3000/payment-failure");
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 }

@@ -6,15 +6,13 @@ import java.util.UUID
 @Entity
 @Table(name = "category")
 data class Category(
+    @Id
+    @Column(name = "category_id")
+    val id: UUID,
     val name: String,
 
     @ElementCollection
-    val subCategories: List<String>,
+    var subCategories: List<String>? = listOf(),
 
     val lang: String,
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "category_id", columnDefinition = "uuid")
-    val id: UUID? = null,
 )

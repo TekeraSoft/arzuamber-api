@@ -16,25 +16,19 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public ApiResponse<?> createCategory(CreateCategoryRequest reqParam) {
-        try {
-            categoryRepository.save(CategoryDto.createCategoryEntity(reqParam));
-            return new ApiResponse<>("Category created", null, true);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 
-    public ApiResponse<?> updateCategory(CreateCategoryRequest categoryRequest) {
+    public ApiResponse<?> createCategory(List<CreateCategoryRequest> categoryRequest) {
         try {
-            categoryRepository.save(CategoryDto.createCategoryEntity(categoryRequest));
+            for(CreateCategoryRequest req : categoryRequest) {
+                categoryRepository.save(CategoryDto.createCategoryEntity(req));
+            }
             return new ApiResponse<>("Category updated", null, true);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public List<CategoryDto> getAllCategories() {
-        return categoryRepository.findAll().stream().map(CategoryDto::toDto).toList();
+    public List<CategoryDto> getAllCategories(String lang) {
+        return categoryRepository.findByLangIgnoreCase(lang).stream().map(CategoryDto::toDto).toList();
     }
 }

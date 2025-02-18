@@ -40,13 +40,13 @@ public class AdminController {
     }
 
     @PostMapping("create-category")
-    public ApiResponse<?> createCategory(@ModelAttribute CreateCategoryRequest createCategoryRequest) {
+    public ApiResponse<?> createCategory(@RequestBody List<CreateCategoryRequest> createCategoryRequest) {
         return categoryService.createCategory(createCategoryRequest);
     }
 
     @GetMapping("/get-all-category")
-    public ResponseEntity<List<CategoryDto>> getAllCategory() {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+    public ResponseEntity<List<CategoryDto>> getAllCategory(@RequestParam String lang) {
+        return ResponseEntity.ok(categoryService.getAllCategories(lang));
     }
 
     @PutMapping("/update-product")
