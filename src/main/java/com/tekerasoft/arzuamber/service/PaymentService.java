@@ -75,7 +75,7 @@ public class PaymentService {
                 request.setBillingAddress(shippingAddress);
             }
 
-            request.setCallbackUrl("https://arzuamber.com/v1-api/api/order/complete-threeds");
+            request.setCallbackUrl("https://arzuamber.com/v1-api/v1/api/order/complete-threeds");
 
             List<BasketItem> basketItems = new ArrayList<>();
             for (com.tekerasoft.arzuamber.dto.request.BasketItem bi : req.getBasketItems()) {
