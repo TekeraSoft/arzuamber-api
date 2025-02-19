@@ -12,6 +12,7 @@ import com.tekerasoft.arzuamber.repository.ProductRepository;
 import com.tekerasoft.arzuamber.utils.SlugGenerator;
 import com.tekerasoft.arzuamber.utils.StockCodeGenerator;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

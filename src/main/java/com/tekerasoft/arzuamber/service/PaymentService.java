@@ -4,6 +4,7 @@ import com.iyzipay.Options;
 import com.iyzipay.model.*;
 import com.iyzipay.request.CreatePaymentRequest;
 import com.iyzipay.request.CreateThreedsPaymentRequestV2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,6 +13,9 @@ import java.util.List;
 
 @Service
 public class PaymentService {
+
+    @Value("${spring.payment.callback-url}")
+    private String callBackUrl;
 
     private final Options options;
 
@@ -75,7 +79,7 @@ public class PaymentService {
                 request.setBillingAddress(shippingAddress);
             }
 
-            request.setCallbackUrl("https://arzuamber.com/v1-api/v1/api/order/complete-threeds");
+            request.setCallbackUrl(callBackUrl);
 
             List<BasketItem> basketItems = new ArrayList<>();
             for (com.tekerasoft.arzuamber.dto.request.BasketItem bi : req.getBasketItems()) {
