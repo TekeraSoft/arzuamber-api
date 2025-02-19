@@ -25,7 +25,6 @@ services:
     environment:
       - MINIO_ROOT_USER=arzuamber_user
       - MINIO_ROOT_PASSWORD=arzuamber_pass
-      - MINIO_STORAGE_CLASS_STANDARD=EC:2
     volumes:
       - ./minio_data:/data  # MinIO verilerini hostta sakla
     networks:
