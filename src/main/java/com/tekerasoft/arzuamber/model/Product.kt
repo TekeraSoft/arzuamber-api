@@ -1,8 +1,10 @@
 package com.tekerasoft.arzuamber.model
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.util.HashSet
 import java.util.UUID
 
 @Entity
@@ -20,7 +22,7 @@ data class Product @JvmOverloads constructor(
     val lang: String,
     val length: String,
 
-    @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     val colorSize: Set<ColorSize>,
 

@@ -40,7 +40,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Query("""
     SELECT DISTINCT p FROM Product p
     JOIN p.colorSize cs
-    JOIN cs.sizeStock ss
+    JOIN cs.stockSize ss
     WHERE
         (COALESCE(:color, cs.color) = cs.color)
         AND (COALESCE(:size, ss.size) = ss.size)

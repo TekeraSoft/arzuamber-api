@@ -1,25 +1,29 @@
 package com.tekerasoft.arzuamber.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tekerasoft.arzuamber.dto.ProductDto;
 import com.tekerasoft.arzuamber.dto.request.CreateProductRequest;
+import com.tekerasoft.arzuamber.dto.request.UpdateProductRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.exception.ProductException;
 import com.tekerasoft.arzuamber.exception.ProductNotFoundException;
 import com.tekerasoft.arzuamber.model.ColorSize;
 import com.tekerasoft.arzuamber.model.Product;
-import com.tekerasoft.arzuamber.model.SizeStock;
+import com.tekerasoft.arzuamber.model.StockSize;
 import com.tekerasoft.arzuamber.repository.ProductRepository;
 import com.tekerasoft.arzuamber.utils.SlugGenerator;
 import com.tekerasoft.arzuamber.utils.StockCodeGenerator;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,8 +54,8 @@ public class ProductService {
 
                 return new ColorSize(
                         colorSizeReq.getColor(),
-                        colorSizeReq.getSizeStock().stream()
-                                .map(ss -> new SizeStock(ss.getSize(), ss.getStock()))
+                        colorSizeReq.getStockSize().stream()
+                                .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
                                 .collect(Collectors.toSet()),
                         StockCodeGenerator.generateStockCode(8),
                         imgUrls
@@ -72,8 +76,8 @@ public class ProductService {
                     req.getLength(),
                     colorSizes,
                     colorSizes.stream()
-                            .flatMap(cs -> cs.getSizeStock().stream())
-                            .mapToInt(SizeStock::getStock)
+                            .flatMap(cs -> cs.getStockSize().stream())
+                            .mapToInt(StockSize::getStock)
                             .sum(),
                     req.getPurchasePrice()
             );
@@ -83,6 +87,12 @@ public class ProductService {
         } catch (RuntimeException e) {
             throw new ProductException(e.getMessage());
         }
+    }
+
+    public ProductDto getProduct(String id) {
+        return productRepository.findById(UUID.fromString(id))
+                .map(ProductDto::toDto)
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     public List<ProductDto> getAllProducts(String lang, int page, int size) {
@@ -104,10 +114,80 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
     }
 
-    public ApiResponse<?> updateProduct(ProductDto req) {
+    @Transactional
+    public ApiResponse<?> updateProduct(String lang, String dataJson, List<MultipartFile> images) {
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            UpdateProductRequest upReq = objectMapper.readValue(dataJson, UpdateProductRequest.class);
 
-            return new ApiResponse<>("Product Updated",null,true);
+            Product product = productRepository.findById(UUID.fromString(upReq.getId()))
+                    .orElseThrow(() -> new ProductNotFoundException("Product not found " + upReq.getId()));
+
+            Map<String, List<String>> imageMap = new HashMap<>();
+
+            if (images != null && !images.isEmpty()) {
+                for (MultipartFile image : images) {
+                    String colorKey = image.getOriginalFilename().split("_")[0]; // "blue_1.jpg" -> "blue"
+                    String imageUrl = fileService.fileUpload(image);
+                    imageMap.computeIfAbsent(colorKey, k -> new ArrayList<>()).add(imageUrl);
+                }
+            }
+
+            // Mevcut ColorSize'ları Map'e al (renk -> ColorSize)
+            Map<String, ColorSize> existingColorSizes = product.getColorSize()
+                    .stream()
+                    .collect(Collectors.toMap(ColorSize::getColor, Function.identity()));
+
+            Set<ColorSize> updatedColorSizes = upReq.getColorSize().stream().map(colorSizeReq -> {
+                ColorSize existingColorSize = existingColorSizes.get(colorSizeReq.getColor());
+
+                // Eski resimleri koru ve yenileri ekle
+                List<String> newImages = new ArrayList<>(imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>()));
+                if (existingColorSize != null && existingColorSize.getImages() != null) {
+                    newImages.addAll(existingColorSize.getImages());
+                }
+
+                return new ColorSize(
+                        colorSizeReq.getColor(),
+                        colorSizeReq.getStockSize().stream()
+                                .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
+                                .collect(Collectors.toSet()),
+                        (existingColorSize != null) ? existingColorSize.getStockCode() : StockCodeGenerator.generateStockCode(8),
+                        newImages.isEmpty() ? colorSizeReq.getImages() : newImages,
+                        (existingColorSize != null) ? (existingColorSize.getId()) : null
+                );
+            }).collect(Collectors.toSet());
+
+
+            // 3️⃣ Yeni Ürün Kaydetme
+            Product newProduct = new Product(
+                    upReq.getName(),
+                    SlugGenerator.generateSlug(upReq.getName()),
+                    upReq.getPopulate(),
+                    upReq.getNewSeason(),
+                    upReq.getCategory(),
+                    upReq.getSubCategory(),
+                    upReq.getDescription(),
+                    upReq.getPrice(),
+                    lang,
+                    upReq.getLength(),
+                    updatedColorSizes,
+                    updatedColorSizes.stream()
+                            .flatMap(cs -> cs.getStockSize().stream())
+                            .mapToInt(StockSize::getStock)
+                            .sum(),
+                    upReq.getPurchasePrice(),
+                    upReq.getDiscountPrice(),
+                    LocalDateTime.now(),
+                    product.getCreatedAt(),
+                    UUID.fromString(upReq.getId())
+            );
+
+            productRepository.save(newProduct);
+            return new ApiResponse<>("Product Created", null, true);
+
+        } catch (JsonProcessingException e) {
+            return new ApiResponse<>("Invalid JSON format", null, false);
         } catch (RuntimeException e) {
             throw new ProductException(e.getMessage());
         }

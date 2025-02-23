@@ -21,12 +21,14 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam String lang, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam String lang, @RequestParam int page,
+                                                           @RequestParam int size) {
         return ResponseEntity.ok(productService.getAllProducts(lang, page, size));
     }
 
     @GetMapping("/get-all-new-season")
-    public ResponseEntity<List<ProductDto>> getAllNewSeasonProduct(@RequestParam String lang, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<List<ProductDto>> getAllNewSeasonProduct(@RequestParam String lang, @RequestParam int page,
+                                                                   @RequestParam int size) {
         return ResponseEntity.ok(productService.getAllNewSeasonProduct(lang, page, size));
     }
 

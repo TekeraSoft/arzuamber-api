@@ -16,9 +16,9 @@ data class ProductDto @JvmOverloads constructor(
     val price: BigDecimal,
     val lang: String,
     val length: String,
-    val colorSize: Set<ColorSizeDto>,
+    val colorSize: List<ColorSizeDto>?,
+    val purchasePrice: BigDecimal?,
     val discountPrice: BigDecimal? = BigDecimal.ZERO,
-    val purchasePrice: BigDecimal? = BigDecimal.ZERO,
     val totalStock: Int? = 0,
 ) {
     companion object {
@@ -36,7 +36,8 @@ data class ProductDto @JvmOverloads constructor(
                 from.price,
                 from.lang,
                 from.length,
-                from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.sizeStock.map { ss -> SizeStockDto(ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) }.toSet(),
+                from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.stockSize.map { ss -> SizeStockDto(ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) },
+                from.purchasePrice,
                 from.discountPrice
             )
         }
@@ -55,7 +56,7 @@ data class ProductDto @JvmOverloads constructor(
                 from.price,
                 from.lang,
                 from.length,
-                from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.sizeStock.map { ss-> SizeStockDto(ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) }.toSet(),
+                from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.stockSize.map { ss-> SizeStockDto(ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) },
                 from.purchasePrice,
                 from.discountPrice,
                 from.totalStock

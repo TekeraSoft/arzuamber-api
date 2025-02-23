@@ -11,6 +11,8 @@ data class UpdateProductRequest(
     val name: String,
     @JsonProperty("populate")
     val populate: Boolean,
+    @JsonProperty("newSeason")
+    val newSeason: Boolean,
     @JsonProperty("category")
     val category: String,
     @JsonProperty("subCategory")
@@ -19,6 +21,12 @@ data class UpdateProductRequest(
     val description: String,
     @JsonProperty("price")
     val price: BigDecimal,
+    @JsonProperty("length")
+    val length: String,
+    @JsonProperty("purchasePrice")
+    val purchasePrice: BigDecimal,
+    @JsonProperty("discountPrice")
+    val discountPrice: BigDecimal,
     @JsonProperty("colorSize")
     val colorSize: List<ColorSizeDto>,
 )

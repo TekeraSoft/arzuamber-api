@@ -6,14 +6,20 @@ import com.tekerasoft.arzuamber.dto.request.LoginRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.dto.response.JwtResponse;
 import com.tekerasoft.arzuamber.exception.UserException;
+import com.tekerasoft.arzuamber.exception.UserRegisterException;
 import com.tekerasoft.arzuamber.model.User;
 import com.tekerasoft.arzuamber.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -22,17 +28,19 @@ import java.util.Optional;
 public class AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
     public AuthService(UserRepository userRepository,
-                       AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
+                       AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder,
                        JwtService jwtService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.jwtService = jwtService;
     }
+
+
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
         Optional<User> user = userRepository.findByEmail(loginRequest.email());
@@ -43,7 +51,8 @@ public class AuthService {
                 );
                 if(auth.isAuthenticated()) {
                     return new JwtResponse(
-                            jwtService.generateToken(addClaims(loginRequest.email()),loginRequest.email())
+                            jwtService.generateToken(addClaims(loginRequest.email()),loginRequest.email()),
+                            jwtService.generateRefreshToken(addClaims(loginRequest.email()),loginRequest.email())
                     );
                 }else {
                     throw new UserException("Email or password is incorrect");
@@ -59,13 +68,38 @@ public class AuthService {
         try {
             Optional<User> user = userRepository.findByEmail(req.getEmail());
             if(user.isPresent()) {
-                throw new UserException("Email already in use");
+                throw new UserRegisterException("Email already in use");
             }else {
-                userRepository.save(UserDto.createUserEntity(req,passwordEncoder));
+                userRepository.save(UserDto.createUserEntity(req,bCryptPasswordEncoder));
                 return new ApiResponse<>("User created successfully",null,true);
             }
         } catch (RuntimeException e) {
-            throw new UserException(e.getMessage());
+            throw new UserRegisterException(e.getMessage());
+        }
+    }
+
+    public JwtResponse refreshToken(String refreshToken) {
+        try {
+            // Token'ın geçerliliğini kontrol et
+            if (jwtService.isTokenExpired(refreshToken)) {
+                throw new UserException("Refresh token expired. Please log in again.");
+            }
+
+            // Token geçerli ise, içinden kullanıcı bilgilerini al
+            String email = jwtService.extractUser(refreshToken);
+            Optional<User> user = userRepository.findByEmail(email);
+
+            if (user.isEmpty()) {
+                throw new UserException("User not found");
+            }
+
+            // Yeni Access Token ve Refresh Token oluştur
+            String newAccessToken = jwtService.generateToken(addClaims(email), email);
+            String newRefreshToken = jwtService.generateRefreshToken(addClaims(email), email);
+
+            return new JwtResponse(newAccessToken, newRefreshToken);
+        } catch (Exception e) {
+            throw new UserException("Invalid refresh token");
         }
     }
 

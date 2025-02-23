@@ -5,6 +5,7 @@ import com.tekerasoft.arzuamber.dto.ProductDto;
 import com.tekerasoft.arzuamber.dto.request.CreateCategoryRequest;
 import com.tekerasoft.arzuamber.dto.request.CreateProductRequest;
 import com.tekerasoft.arzuamber.dto.request.PriceUpdatePercentageRequest;
+import com.tekerasoft.arzuamber.dto.request.UpdateProductRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.service.CategoryService;
 import com.tekerasoft.arzuamber.service.ProductService;
@@ -30,8 +31,31 @@ public class AdminController {
     public ResponseEntity<ApiResponse<?>> createProduct(@RequestParam String lang,
                                                         @RequestPart("data") CreateProductRequest createProductRequest,
                                                         @RequestPart("images") List<MultipartFile> images) {
-        System.out.println(createProductRequest);
         return ResponseEntity.ok(productService.createProduct(lang,createProductRequest,images));
+    }
+
+    @PutMapping("/update-product")
+    public ResponseEntity<ApiResponse<?>> updateProduct(@RequestParam String lang,
+                                                        @RequestParam("data") String dataJson,
+                                                        @RequestPart(value = "images", required = false) List<MultipartFile> images) throws RuntimeException {
+        try {
+            return ResponseEntity.ok(productService.updateProduct(lang,dataJson,images));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/get-all-product")
+    public ResponseEntity<List<ProductDto>> getAllProduct(@RequestParam String lang,
+                                                          @RequestParam int page,
+                                                          @RequestParam int size) {
+        return ResponseEntity.ok(productService.getAllProducts(lang,page, size));
+    }
+
+    @GetMapping("/get-product")
+    public ResponseEntity<ProductDto> getProduct(@RequestParam String id) {
+        return ResponseEntity.ok(productService.getProduct(id));
     }
 
     @DeleteMapping("/delete-product")
@@ -47,18 +71,6 @@ public class AdminController {
     @GetMapping("/get-all-category")
     public ResponseEntity<List<CategoryDto>> getAllCategory(@RequestParam String lang) {
         return ResponseEntity.ok(categoryService.getAllCategories(lang));
-    }
-
-    @PutMapping("/update-product")
-    public ResponseEntity<ApiResponse<?>> updateProduct(@RequestBody ProductDto product) {
-        return ResponseEntity.ok(productService.updateProduct(product));
-    }
-
-    @GetMapping("/get-all-product")
-    public ResponseEntity<List<ProductDto>> getAllProduct(@RequestParam String lang,
-                                                          @RequestParam int page,
-                                                          @RequestParam int size) {
-        return ResponseEntity.ok(productService.getAllProducts(lang,page, size));
     }
 
     @PutMapping("update-price-by-percentage")

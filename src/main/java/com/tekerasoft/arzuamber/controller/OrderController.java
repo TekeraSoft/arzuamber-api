@@ -7,6 +7,7 @@ import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
 import com.tekerasoft.arzuamber.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,9 @@ import java.util.Map;
 @RequestMapping("/v1/api/order")
 public class OrderController {
     private final PaymentService paymentService;
+
+    @Value("${spring.origin.url}")
+    private String originUrl;
 
     public OrderController(PaymentService paymentService) {
         this.paymentService = paymentService;
@@ -42,9 +46,9 @@ public class OrderController {
 
             // Ödeme başarılıysa frontend’e yönlendir
             if ("success".equalsIgnoreCase(payment.getStatus())) {
-                response.sendRedirect("http://localhost:3000");
+                response.sendRedirect(originUrl+"/payment-success");
             } else {
-                response.sendRedirect("http://localhost:3000/payment-failure");
+                response.sendRedirect(originUrl+"/payment-failure");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

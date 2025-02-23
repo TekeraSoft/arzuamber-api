@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.model
 
-import com.tekerasoft.arzuamber.utils.StockCodeGenerator
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -11,13 +12,10 @@ data class ColorSize @JvmOverloads constructor(
     val color: String,
     @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
     @JoinColumn(name = "color_size_id")
-    val sizeStock: Set<SizeStock>,
+    val stockSize: Set<StockSize>,
     val stockCode: String,
 
-    val totalStock: Int? = 0,
-
-    @ElementCollection
-    @CollectionTable(name = "images", joinColumns = [JoinColumn(name = "color_size_id")])
+    @ElementCollection(fetch = FetchType.EAGER)
     val images: List<String>?,
 
     @Id

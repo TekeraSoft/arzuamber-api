@@ -2,6 +2,7 @@ package com.tekerasoft.arzuamber.controller;
 
 import com.tekerasoft.arzuamber.dto.request.CreateUserRequest;
 import com.tekerasoft.arzuamber.dto.request.LoginRequest;
+import com.tekerasoft.arzuamber.dto.request.RefreshTokenRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.dto.response.JwtResponse;
 import com.tekerasoft.arzuamber.service.AuthService;
@@ -30,4 +31,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(createUserRequest));
     }
 
+    @PostMapping("/refresh-token")
+    public ResponseEntity<JwtResponse> refreshToke(@RequestBody RefreshTokenRequest req) {
+        return ResponseEntity.ok(authService.refreshToken(req.getRefreshToken()));
+    }
 }

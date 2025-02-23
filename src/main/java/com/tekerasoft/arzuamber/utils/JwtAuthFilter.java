@@ -1,12 +1,15 @@
 package com.tekerasoft.arzuamber.utils;
 
+import com.tekerasoft.arzuamber.service.AuthService;
 import com.tekerasoft.arzuamber.service.JwtService;
+import com.tekerasoft.arzuamber.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +24,11 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
-    public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthFilter(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         if (path.startsWith("/v1/api/product") ||
                 path.startsWith("/v1/api/order") ||
-        path.startsWith("/v1/api/auth")) {
+                path.startsWith("/v1/api/auth")) {
             filterChain.doFilter(request, response); // Doğrudan devam et
             return;
         }
@@ -46,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (token != null) {
                 username = jwtService.extractUser(token);
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    UserDetails userDetails = userService.loadUserByUsername(username);
                     if (jwtService.validateToken(token, userDetails)) {
                         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());
@@ -74,7 +77,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 // Eğer cookie'nin adı 'session-token' veya başka bir token adı ise
-                if ("session-token".equals(cookie.getName()) || "__Secure-next-auth.session-token".equals(cookie.getName())) {
+                if ("next-auth.session-token".equals(cookie.getName()) || "__Secure-next-auth.session-token".equals(cookie.getName())) {
                     return cookie.getValue(); // Token'ı döndür
                 }
             }

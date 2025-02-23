@@ -45,6 +45,11 @@ public class JwtService {
                 .getBody();
         return claims.getExpiration();
     }
+
+    public boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
     public String extractUser(String token) {
         Claims claims = Jwts
                 .parserBuilder()
