@@ -35,7 +35,7 @@ spring:
   iyzico:
     api_key: wsXNHznkvp2vwa2uwPkTBatTldHuz0GZ
     secret_key: i00wXXujkkfzsbRFF8W9GDKhqCE8MWSR
-    base_url: https://sandbox-api.iyzipay.com
+    base_url: https://api.iyzipay.com
 
   #payment:
   #  callback-url: http://localhost:8080/v1/api/order/complete-threeds
