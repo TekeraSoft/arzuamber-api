@@ -12,7 +12,7 @@ services:
     networks:
       - my-network
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data  # Veritabanı verilerini hostta sakla
+      - postgres_data:/var/lib/postgresql/data  # Veritabanı verilerini hostta sakla
     restart: unless-stopped  # Sistem yeniden başlarsa veri kaybolmaz
 
   # MinIO (Blob Storage)
@@ -26,24 +26,24 @@ services:
       - MINIO_ROOT_USER=arzuamber_user
       - MINIO_ROOT_PASSWORD=arzuamber_pass
     volumes:
-      - ./minio_data:/data  # MinIO verilerini hostta sakla
+      - minio_data:/data  # MinIO verilerini hostta sakla
     networks:
       - my-network
     restart: unless-stopped
 
   # Spring Boot Application
-  #arzuamber-api:
-  #  build:
-  #    context: .
-  #  container_name: arzuamber-api
-  #  depends_on:
-  #    - arzuamber-db
-  #    - minio
-  #  ports:
-  #    - "9090:8080"
-  #  networks:
-  #    - my-network
-  #  restart: unless-stopped
+  arzuamber-api:
+    build:
+      context: .
+    container_name: arzuamber-api
+    depends_on:
+      - arzuamber-db
+      - minio
+    ports:
+      - "9090:8080"
+    networks:
+      - my-network
+    restart: unless-stopped
 
 networks:
   my-network:
