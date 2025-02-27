@@ -32,18 +32,18 @@ services:
     restart: unless-stopped
 
   # Spring Boot Application
-  #arzuamber-api:
-  #  build:
-  #    context: .
-  #  container_name: arzuamber-api
-  #  depends_on:
-  #    - arzuamber-db
-  #    - minio
-  #  ports:
-  #    - "9090:8080"
-  #  networks:
-  #    - my-network
-  #  restart: unless-stopped
+  arzuamber-api:
+    build:
+      context: .
+    container_name: arzuamber-api
+    depends_on:
+      - arzuamber-db
+      - minio
+    ports:
+      - "9090:8080"
+    networks:
+      - my-network
+    restart: unless-stopped
 
 volumes:
   postgres_data: {}  # PostgreSQL için volume tanımı
