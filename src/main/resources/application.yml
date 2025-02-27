@@ -40,7 +40,7 @@ spring:
   #payment:
   #  callback-url: http://localhost:8080/v1/api/order/complete-threeds
   payment:
-    callback-url: https://arzuamber.com/v1-api/v1/api/order/complete-threeds
+    callback-url: https://arzuamber.com/v1-api/order/complete-threeds
 
   servlet:
     multipart:
