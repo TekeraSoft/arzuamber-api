@@ -3,25 +3,25 @@ spring:
     name: arzuamber
 
   origin:
-    url: https://arzuamber.com
+    url: http://localhost:3000
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://arzuamber-db:5432/arzuamber-db
-    #url: jdbc:postgresql://localhost:5435/arzuamber-db
+    #url: jdbc:postgresql://arzuamber-db:5432/arzuamber-db
+    url: jdbc:postgresql://localhost:5435/arzuamber-db
     username: arzuamber_user
     password: arzuamber_pass
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
 
   minio:
-    url: http://arzuamber-blob-storage:9000
-    #url: http://localhost:9000
+    #url: http://arzuamber-blob-storage:9000
+    url: http://localhost:9000
     user: arzuamber_user
     password: arzuamber_pass
     bucket-name: arzuamber-bucket
@@ -35,12 +35,12 @@ spring:
   iyzico:
     api_key: wsXNHznkvp2vwa2uwPkTBatTldHuz0GZ
     secret_key: i00wXXujkkfzsbRFF8W9GDKhqCE8MWSR
-    base_url: https://sandbox-api.iyzipay.com
+    base_url: https://api.iyzipay.com
 
-  #payment:
-  #  callback-url: http://localhost:8080/v1/api/order/complete-threeds
   payment:
-    callback-url: https://arzuamber.com/v1-api/v1/api/order/complete-threeds
+    callback-url: http://localhost:8080/v1/api/order/complete-threeds
+  #payment:
+  #  callback-url: https://arzuamber.com/v1-api/v1/api/order/complete-threeds
 
   servlet:
     multipart:

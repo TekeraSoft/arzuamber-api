@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -49,7 +50,9 @@ public class OrderController {
             } else {
                 response.sendRedirect(originUrl+"/tr/payment-failure");
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return null;
