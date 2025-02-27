@@ -4,10 +4,16 @@ import com.iyzipay.Options;
 import com.iyzipay.model.*;
 import com.iyzipay.request.CreatePaymentRequest;
 import com.iyzipay.request.CreateThreedsPaymentRequestV2;
+import com.tekerasoft.arzuamber.dto.AddressDto;
+import com.tekerasoft.arzuamber.dto.BasketItemDto;
+import com.tekerasoft.arzuamber.dto.BuyerDto;
+import com.tekerasoft.arzuamber.dto.OrderDto;
+import com.tekerasoft.arzuamber.model.OrderStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +24,13 @@ public class PaymentService {
     private String callBackUrl;
 
     private final Options options;
+    private final OrderService orderService;
+    private final ProductService productService;
 
-    public PaymentService(Options options) {
+    public PaymentService(Options options, OrderService orderService, ProductService productService) {
         this.options = options;
+        this.orderService = orderService;
+        this.productService = productService;
     }
 
     public ThreedsInitialize payment(com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest req) {
@@ -68,16 +78,12 @@ public class PaymentService {
             request.setShippingAddress(shippingAddress);
 
             Address billingAddress = new Address();
-            if(req.getBillingAddress() != null) {
                 billingAddress.setContactName(req.getBillingAddress().getContactName());
                 billingAddress.setCity(req.getBillingAddress().getCity());
                 billingAddress.setCountry(req.getBillingAddress().getCountry());
                 billingAddress.setAddress(req.getBillingAddress().getAddress());
                 billingAddress.setZipCode(req.getBillingAddress().getZipCode());
                 request.setBillingAddress(billingAddress);
-            } else {
-                request.setBillingAddress(shippingAddress);
-            }
 
             request.setCallbackUrl(callBackUrl);
 
@@ -97,6 +103,8 @@ public class PaymentService {
                 basketItems.add(basketI);
             }
 
+            // ProductId ve quantity bilgisi geliyor ürünün stoğunu renk ve bedene göre veritabanından düşecek
+
 // Tüm ürünlerin toplam fiyatını hesapla
             BigDecimal totalPrice = basketItems.stream()
                     .map(BasketItem::getPrice)
@@ -107,7 +115,60 @@ public class PaymentService {
             request.setPaidPrice(totalPrice);
             request.setBasketItems(basketItems);
 
-            return ThreedsInitialize.create(request,options);
+            ThreedsInitialize threedsInitialize =  ThreedsInitialize.create(request,options);
+
+            try {
+                orderService.save(new OrderDto(
+                        new BuyerDto(
+                                req.getBuyer().getName(),
+                                req.getBuyer().getSurname(),
+                                req.getBuyer().getGsmNumber(),
+                                req.getBuyer().getEmail(),
+                                req.getBuyer().getIp(),
+                                req.getBuyer().getIdentityNumber(),
+                                req.getBuyer().getLastLoginDate(),
+                                req.getBuyer().getRegistrationDate(),
+                                req.getBuyer().getRegistrationAddress()
+                        ),
+                        new AddressDto(
+                                req.getShippingAddress().getContactName(),
+                                req.getShippingAddress().getCity(),
+                                req.getShippingAddress().getState(),
+                                req.getShippingAddress().getCountry(),
+                                req.getShippingAddress().getAddress(),
+                                req.getShippingAddress().getStreet(),
+                                req.getShippingAddress().getZipCode()
+                        ),
+                        new AddressDto(
+                                req.getBillingAddress().getContactName(),
+                                req.getBillingAddress().getCity(),
+                                req.getBillingAddress().getState(),
+                                req.getBillingAddress().getCountry(),
+                                req.getBillingAddress().getAddress(),
+                                req.getBillingAddress().getStreet(),
+                                req.getBillingAddress().getZipCode()
+                        ),
+                        req.getBasketItems().stream().map(bi -> new BasketItemDto(
+                                bi.getName(),
+                                bi.getCategory1(),
+                                bi.getCategory2(),
+                                bi.getPrice(),
+                                bi.getQuantity(),
+                                bi.getSize(),
+                                bi.getColor(),
+                                bi.getStockSizeId(),
+                                bi.getStockCode()
+                        )).toList(),
+                        totalPrice,
+                        OrderStatus.PENDING,
+                        LocalDateTime.now(),
+                        threedsInitialize.getPaymentId()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();  // Hatanın ne olduğunu görmek için logla
+            }
+
+            return threedsInitialize;
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Error creating payment request", e);
@@ -122,7 +183,16 @@ public class PaymentService {
             threedsRequest.setLocale(Locale.TR.getValue());
 
             // 3D Secure Ödeme Tamamlama
-            return ThreedsPayment.create(threedsRequest, options);
+            ThreedsPayment threedsPayment = ThreedsPayment.create(threedsRequest, options);
+
+            if(threedsPayment.getStatus().equals("success")) {
+               OrderDto order = orderService.changeOrderStatusAndReturnOrder(paymentId); // set payment status paid
+                for (BasketItemDto bd: order.getBasketItems()) {
+                    productService.reduceStock(bd.getStockSizeId(), bd.getQuantity());
+                }
+            }
+
+            return threedsPayment;
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Error completing 3D Secure payment", e);

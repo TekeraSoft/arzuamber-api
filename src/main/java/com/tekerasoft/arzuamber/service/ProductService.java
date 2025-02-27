@@ -16,6 +16,9 @@ import com.tekerasoft.arzuamber.utils.SlugGenerator;
 import com.tekerasoft.arzuamber.utils.StockCodeGenerator;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,10 +33,11 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final FileService fileService;
-
-    public ProductService(ProductRepository productRepository, FileService fileService) {
+    private final PagedResourcesAssembler<ProductDto> pagedResourcesAssembler;
+    public ProductService(ProductRepository productRepository, FileService fileService, PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
         this.productRepository = productRepository;
         this.fileService = fileService;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @Transactional
@@ -89,21 +93,41 @@ public class ProductService {
         }
     }
 
+    public ApiResponse<?> changeProductActive(String id, Boolean active) {
+        try {
+            productRepository.updateIsActive(UUID.fromString(id), active);
+            return new ApiResponse<>(active ? "Product Active": "Product Deactive", null, true);
+        } catch (RuntimeException e) {
+            throw new ProductException(e.getMessage());
+        }
+    }
+
     public ProductDto getProduct(String id) {
         return productRepository.findById(UUID.fromString(id))
                 .map(ProductDto::toDto)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    public List<ProductDto> getAllProducts(String lang, int page, int size) {
-        return productRepository.findByLangIgnoreCase(lang,PageRequest.of(page,size))
-                .stream()
-                .map(ProductDto::toDto)
-                .collect(Collectors.toList());
+    public PagedModel<EntityModel<ProductDto>> getAllProducts(String lang, int page, int size) {
+
+        return pagedResourcesAssembler.toModel(productRepository.findByLangIgnoreCase(lang,PageRequest.of(page,size))
+                .map(ProductDto::toDto));
+    }
+
+    public PagedModel<EntityModel<ProductDto>> getAllProductsByActive(String lang, int page, int size) {
+        return pagedResourcesAssembler.toModel(
+                productRepository.findByLangIgnoreCaseAndIsActiveTrue(lang,PageRequest.of(page,size))
+                        .map(ProductDto::toDto)
+        );
     }
 
     public List<ProductDto> getAllNewSeasonProduct(String lang, int page, int size) {
-        return productRepository.findByNewSeasonAndLang(lang,PageRequest.of(page,size))
+        return productRepository.findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrue(lang,PageRequest.of(page,size))
+                .stream().map(ProductDto::toDto).collect(Collectors.toList());
+    }
+
+    public List<ProductDto> getAllPopulateProduct(String lang, int page, int size) {
+        return productRepository.findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrue(lang,PageRequest.of(page,size))
                 .stream().map(ProductDto::toDto)
                 .collect(Collectors.toList());
     }
@@ -158,7 +182,6 @@ public class ProductService {
                 );
             }).collect(Collectors.toSet());
 
-
             // 3️⃣ Yeni Ürün Kaydetme
             Product newProduct = new Product(
                     upReq.getName(),
@@ -180,11 +203,12 @@ public class ProductService {
                     upReq.getDiscountPrice(),
                     LocalDateTime.now(),
                     product.getCreatedAt(),
-                    UUID.fromString(upReq.getId())
+                    UUID.fromString(upReq.getId()),
+                    product.isActive()
             );
 
             productRepository.save(newProduct);
-            return new ApiResponse<>("Product Created", null, true);
+            return new ApiResponse<>("Product Updated", null, true);
 
         } catch (JsonProcessingException e) {
             return new ApiResponse<>("Invalid JSON format", null, false);
@@ -193,16 +217,17 @@ public class ProductService {
         }
     }
 
-    public List<ProductDto> filterProducts(String lang, String size, String color, String category, String length) {
+    public PagedModel<EntityModel<ProductDto>> filterProducts(String lang, String size, String color, String category, String length, int page, int pageSize) {
         lang = (lang.isEmpty()) ? null : lang;
         size = (size.isEmpty()) ? null : size;
         color = (color.isEmpty()) ? null : color;
         category = (category.isEmpty()) ? null : category;
         length = (length.isEmpty()) ? null : length;
 
-        return productRepository.findProductsByFilters(color,size,category,length,lang)
-                .stream().map(ProductDto::toDto)
-                .collect(Collectors.toList());
+        return pagedResourcesAssembler.toModel(
+                productRepository.findProductsByFilters(color,size,category,length,lang, PageRequest.of(page,pageSize))
+                        .map(ProductDto::toDto)
+        );
     }
 
     @Transactional
@@ -251,4 +276,9 @@ public class ProductService {
             throw new ProductException(e.getMessage());
         }
     }
+
+    public void reduceStock(String stockSizeId, int quantity) {
+        productRepository.reduceStock(UUID.fromString(stockSizeId),quantity);
+    }
+
 }

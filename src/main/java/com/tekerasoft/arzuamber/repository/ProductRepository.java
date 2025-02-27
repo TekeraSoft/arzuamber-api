@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.repository;
 
 import com.tekerasoft.arzuamber.model.Product;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,10 +17,20 @@ import java.util.UUID;
 public interface ProductRepository extends JpaRepository<Product, UUID> {
     Page<Product> findByLangIgnoreCase(String lang, Pageable pageable);
 
+    Page<Product> findByLangIgnoreCaseAndIsActiveTrue(String lang, Pageable pageable);
+
     Optional<Product> findByLangIgnoreCaseAndSlugIgnoreCase(String lang, String slug);
 
-    @Query("SELECT t FROM Product t WHERE t.newSeason = true AND t.lang = :lang")
-    List<Product> findByNewSeasonAndLang(@Param("lang") String lang, Pageable pageable);
+    @Modifying
+    @Transactional
+    @Query("UPDATE Product p SET p.isActive = :isActive WHERE p.id = :productId")
+    void updateIsActive(@Param("productId") UUID productId, @Param("isActive") boolean isActive);
+
+    @Query("SELECT t FROM Product t WHERE t.newSeason = true AND t.lang = :lang AND t.isActive = true")
+    Page<Product> findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrue(@Param("lang") String lang, Pageable pageable);
+
+    @Query("SELECT t FROM Product t WHERE t.populate = true AND t.lang = :lang AND t.isActive = true")
+    Page<Product> findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrue(@Param("lang") String lang, Pageable pageable);
 
     @Query("SELECT t FROM Product t WHERE t.price IS NOT NULL")
     List<Product> findAllProductPrices();
@@ -36,6 +47,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Query("UPDATE Product t SET t.price = t.price - :amount")
     int decreaseAllProductsPrice(@Param("amount") BigDecimal amount);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE StockSize ss SET ss.stock = ss.stock - :quantity WHERE ss.id = :stockSizeId AND ss.stock >= :quantity")
+    void reduceStock(@Param("stockSizeId") UUID stockSizeId, @Param("quantity") int quantity);
 
     @Query("""
     SELECT DISTINCT p FROM Product p
@@ -48,11 +63,12 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
         AND (COALESCE(:length, p.length) = p.length)
         AND (COALESCE(:lang, p.lang) = p.lang)
 """)
-    List<Product> findProductsByFilters(
+    Page<Product> findProductsByFilters(
             @Param("color") String color,
             @Param("size") String size,
             @Param("category") String category,
             @Param("length") String length,
-            @Param("lang") String lang
+            @Param("lang") String lang,
+            Pageable pageable
     );
 }

@@ -81,4 +81,12 @@ data class BasketItem(
     var price: String,
     @JsonProperty("quantity")
     val quantity: Int,
+    @JsonProperty("size")
+    val size: String,
+    @JsonProperty("color")
+    val color: String,
+    @JsonProperty("stockSizeId")
+    val stockSizeId: String,
+    @JsonProperty("stockCode")
+    val stockCode: String,
 )

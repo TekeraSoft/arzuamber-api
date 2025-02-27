@@ -24,18 +24,18 @@ data class Product @JvmOverloads constructor(
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    val colorSize: Set<ColorSize>,
-
+    var colorSize: Set<ColorSize>,
     val totalStock: Int? = 0,
     val purchasePrice: BigDecimal?= BigDecimal.ZERO,
     val discountPrice: BigDecimal? = BigDecimal.ZERO,
 
     val updatedAt: LocalDateTime? = LocalDateTime.now(),
     val createdAt: LocalDateTime? = LocalDateTime.now(),
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id", columnDefinition = "uuid")
     val id: UUID? = null,
+
+    val isActive: Boolean? = true,
 
     )

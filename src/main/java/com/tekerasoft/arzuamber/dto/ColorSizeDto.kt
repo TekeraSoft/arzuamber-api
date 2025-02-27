@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.tekerasoft.arzuamber.model.StockSize
 
 data class ColorSizeDto(
     @JsonProperty("color")

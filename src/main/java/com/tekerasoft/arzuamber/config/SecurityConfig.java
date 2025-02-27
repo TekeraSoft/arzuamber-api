@@ -52,9 +52,12 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/v1/api/product/**",
                                 "/v1/api/order/**",
-                                "/v1/api/auth/**"
+                                "/v1/api/auth/**",
+                                "/v1/api/blog/**",
+                                "/v1/api/contact/**"
                         ).permitAll()
                         .requestMatchers("/v1/api/admin/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/v1/api/user/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -66,9 +69,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        //configuration.setAllowedOriginPatterns(Arrays.asList("https://arzuamber.com")); // İzin verilen origin
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // İzin verilen HTTP metodları
+        configuration.setAllowedOriginPatterns(Arrays.asList(originUrl)); // İzin verilen origin
+        //configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","PATCH")); // İzin verilen HTTP metodları
         configuration.setAllowedHeaders(Arrays.asList("*")); // İzin verilen başlıklar
         configuration.setAllowCredentials(true); // Kimlik doğrulama bilgilerini dahil et (örn. Cookie)
 

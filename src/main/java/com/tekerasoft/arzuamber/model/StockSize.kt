@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import java.util.UUID
 
 @Entity
-@Table(name = "size_stock")
+@Table(name = "stock_size")
 data class StockSize @JvmOverloads constructor(
 
     val size: String,
@@ -12,6 +12,6 @@ data class StockSize @JvmOverloads constructor(
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="size_stock_id", columnDefinition = "uuid")
+    @Column(name="stock_size_id", columnDefinition = "uuid")
     val id: UUID? = null,
 )

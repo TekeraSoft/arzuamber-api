@@ -2,7 +2,6 @@ package com.tekerasoft.arzuamber.controller;
 
 import com.iyzipay.model.ThreedsInitialize;
 import com.iyzipay.model.ThreedsPayment;
-import com.tekerasoft.arzuamber.dto.request.CompleteThreedsRequest;
 import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
 import com.tekerasoft.arzuamber.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,9 +45,9 @@ public class OrderController {
 
             // Ödeme başarılıysa frontend’e yönlendir
             if ("success".equalsIgnoreCase(payment.getStatus())) {
-                response.sendRedirect(originUrl+"/payment-success");
+                response.sendRedirect(originUrl+"/tr/payment-success");
             } else {
-                response.sendRedirect(originUrl+"/payment-failure");
+                response.sendRedirect(originUrl+"/tr/payment-failure");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
