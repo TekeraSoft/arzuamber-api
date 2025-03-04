@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 "/v1/api/product/**",
+                                "/v1/api/category/**",
                                 "/v1/api/order/**",
                                 "/v1/api/auth/**",
                                 "/v1/api/blog/**",

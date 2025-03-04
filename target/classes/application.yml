@@ -14,7 +14,7 @@ spring:
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -33,14 +33,17 @@ spring:
       expiration: 604800000
 
   iyzico:
-    api_key: wsXNHznkvp2vwa2uwPkTBatTldHuz0GZ
-    secret_key: i00wXXujkkfzsbRFF8W9GDKhqCE8MWSR
-    base_url: https://api.iyzipay.com
+    #api_key: wsXNHznkvp2vwa2uwPkTBatTldHuz0GZ
+    #secret_key: i00wXXujkkfzsbRFF8W9GDKhqCE8MWSR
+    #base_url: https://api.iyzipay.com
+    api_key: sandbox-4mlmZxqqpEvkFn61GClqGpDpt0cYZuA2
+    secret_key: sandbox-m4UURbHi8klCbIqCiCWsjlyJG8mTfuG4
+    base_url: https://sandbox-api.iyzipay.com
 
   payment:
-    callback-url: http://localhost:8080/v1/api/order/complete-threeds
+    callback-url: http://192.168.1.114:8080/v1/api/order/complete-threeds
   #payment:
-  #  callback-url: https://arzuamber.com/v1-api/v1/api/order/complete-threeds
+  #  callback-url: https://arzuamber.com/v1-api/order/complete-threeds
 
   servlet:
     multipart:

@@ -54,14 +54,15 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     @Query("""
     SELECT DISTINCT p FROM Product p
-    JOIN p.colorSize cs
-    JOIN cs.stockSize ss
+    LEFT JOIN p.colorSize cs
+    LEFT JOIN cs.stockSize ss
     WHERE
-        (COALESCE(:color, cs.color) = cs.color)
-        AND (COALESCE(:size, ss.size) = ss.size)
-        AND (COALESCE(:category, p.category) = p.category)
-        AND (COALESCE(:length, p.length) = p.length)
-        AND (COALESCE(:lang, p.lang) = p.lang)
+        (:color IS NULL OR cs.color = :color)
+        AND (:size IS NULL OR ss.size = :size)
+        AND (:category IS NULL OR p.category = :category)
+        AND (:length IS NULL OR p.length = :length)
+        AND (:lang IS NULL OR p.lang = :lang)
+        AND (p.isActive = true)
 """)
     Page<Product> findProductsByFilters(
             @Param("color") String color,

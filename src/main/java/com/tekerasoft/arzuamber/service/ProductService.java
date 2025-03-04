@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tekerasoft.arzuamber.dto.ProductDto;
 import com.tekerasoft.arzuamber.dto.request.CreateProductRequest;
@@ -34,7 +35,9 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final FileService fileService;
     private final PagedResourcesAssembler<ProductDto> pagedResourcesAssembler;
-    public ProductService(ProductRepository productRepository, FileService fileService, PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
+
+    public ProductService(ProductRepository productRepository, FileService fileService,
+                          PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
         this.productRepository = productRepository;
         this.fileService = fileService;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
@@ -53,18 +56,18 @@ public class ProductService {
             }
 
             // 2️⃣ colorSize içindeki `color` alanına göre görselleri eşleştir
-            Set<ColorSize> colorSizes = req.getColorSize().stream().map(colorSizeReq -> {
+            List<ColorSize> colorSizes = req.getColorSize().stream().map(colorSizeReq -> {
                 List<String> imgUrls = imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>());
 
                 return new ColorSize(
                         colorSizeReq.getColor(),
                         colorSizeReq.getStockSize().stream()
                                 .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
-                                .collect(Collectors.toSet()),
+                                .collect(Collectors.toList()),
                         StockCodeGenerator.generateStockCode(8),
                         imgUrls
                 );
-            }).collect(Collectors.toSet());
+            }).collect(Collectors.toList());
 
             // 3️⃣ Yeni Ürün Kaydetme
             Product newProduct = new Product(
@@ -138,51 +141,64 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
     }
 
-    @Transactional
     public ApiResponse<?> updateProduct(String lang, String dataJson, List<MultipartFile> images) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
             UpdateProductRequest upReq = objectMapper.readValue(dataJson, UpdateProductRequest.class);
 
             Product product = productRepository.findById(UUID.fromString(upReq.getId()))
                     .orElseThrow(() -> new ProductNotFoundException("Product not found " + upReq.getId()));
 
+            List<String> deletedImages = upReq.getDeletedImages(); // 🚨 Silinen resimleri al
+
+            if (deletedImages != null && !deletedImages.isEmpty()) {
+                for (String url : deletedImages) {
+                    try {
+                        fileService.deleteFile(url);
+                    } catch (Exception e) {
+                        System.err.println("Error deleting file: " + e.getMessage());
+                    }
+                }
+            }
+
             Map<String, List<String>> imageMap = new HashMap<>();
 
             if (images != null && !images.isEmpty()) {
                 for (MultipartFile image : images) {
-                    String colorKey = image.getOriginalFilename().split("_")[0]; // "blue_1.jpg" -> "blue"
+                    String colorKey = image.getOriginalFilename().split("_")[0];
                     String imageUrl = fileService.fileUpload(image);
                     imageMap.computeIfAbsent(colorKey, k -> new ArrayList<>()).add(imageUrl);
                 }
             }
 
-            // Mevcut ColorSize'ları Map'e al (renk -> ColorSize)
             Map<String, ColorSize> existingColorSizes = product.getColorSize()
                     .stream()
                     .collect(Collectors.toMap(ColorSize::getColor, Function.identity()));
 
-            Set<ColorSize> updatedColorSizes = upReq.getColorSize().stream().map(colorSizeReq -> {
+            List<ColorSize> updatedColorSizes = upReq.getColorSize().stream().map(colorSizeReq -> {
                 ColorSize existingColorSize = existingColorSizes.get(colorSizeReq.getColor());
 
-                // Eski resimleri koru ve yenileri ekle
                 List<String> newImages = new ArrayList<>(imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>()));
+
                 if (existingColorSize != null && existingColorSize.getImages() != null) {
                     newImages.addAll(existingColorSize.getImages());
                 }
+
+                // 🚀 Silinen resimleri kaldır
+                newImages.removeAll(deletedImages);
 
                 return new ColorSize(
                         colorSizeReq.getColor(),
                         colorSizeReq.getStockSize().stream()
                                 .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
-                                .collect(Collectors.toSet()),
+                                .collect(Collectors.toList()),
                         (existingColorSize != null) ? existingColorSize.getStockCode() : StockCodeGenerator.generateStockCode(8),
                         newImages.isEmpty() ? colorSizeReq.getImages() : newImages,
                         (existingColorSize != null) ? (existingColorSize.getId()) : null
                 );
-            }).collect(Collectors.toSet());
+            }).collect(Collectors.toList());
 
-            // 3️⃣ Yeni Ürün Kaydetme
             Product newProduct = new Product(
                     upReq.getName(),
                     SlugGenerator.generateSlug(upReq.getName()),
@@ -211,21 +227,23 @@ public class ProductService {
             return new ApiResponse<>("Product Updated", null, true);
 
         } catch (JsonProcessingException e) {
-            return new ApiResponse<>("Invalid JSON format", null, false);
+           throw new RuntimeException(e.getMessage());
         } catch (RuntimeException e) {
             throw new ProductException(e.getMessage());
         }
     }
 
     public PagedModel<EntityModel<ProductDto>> filterProducts(String lang, String size, String color, String category, String length, int page, int pageSize) {
-        lang = (lang.isEmpty()) ? null : lang;
-        size = (size.isEmpty()) ? null : size;
-        color = (color.isEmpty()) ? null : color;
-        category = (category.isEmpty()) ? null : category;
-        length = (length.isEmpty()) ? null : length;
+        // Parametrelerin null olup olmadığını kontrol et
+        lang = (lang == null || lang.isEmpty()) ? null : lang;
+        size = (size == null || size.isEmpty()) ? null : size;
+        color = (color == null || color.isEmpty()) ? null : color;
+        category = (category == null || category.isEmpty()) ? null : category;
+        length = (length == null || length.isEmpty()) ? null : length;
 
+        // Sorguyu çalıştır ve sayfalanmış sonuçları döndür
         return pagedResourcesAssembler.toModel(
-                productRepository.findProductsByFilters(color,size,category,length,lang, PageRequest.of(page,pageSize))
+                productRepository.findProductsByFilters(color, size, category, length, lang, PageRequest.of(page, pageSize))
                         .map(ProductDto::toDto)
         );
     }

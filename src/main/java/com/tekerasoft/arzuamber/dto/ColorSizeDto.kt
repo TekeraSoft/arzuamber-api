@@ -1,7 +1,8 @@
 package com.tekerasoft.arzuamber.dto
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.tekerasoft.arzuamber.model.StockSize
+import java.util.*
 
 data class ColorSizeDto(
     @JsonProperty("color")
@@ -9,7 +10,8 @@ data class ColorSizeDto(
     @JsonProperty("stockSize")
     val stockSize: Set<SizeStockDto>,
     @JsonProperty("stockCode")
-    val stockCode: String,
+    val stockCode: String? = null,
     @JsonProperty("images")
-    val images: List<String>?
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    val images: List<String>? = listOf()
 )

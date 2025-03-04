@@ -31,7 +31,6 @@ services:
       - my-network
     restart: unless-stopped
 
-  # Spring Boot Application
   arzuamber-api:
     build:
       context: .

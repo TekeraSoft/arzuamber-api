@@ -12,6 +12,7 @@ data class Blog @JvmOverloads constructor(
     val slug: String,
     val category: String,
     val image: String,
+    @Column(columnDefinition = "TEXT")
     val content: String,
     val lang: String,
     val createdAt: LocalDateTime? = LocalDateTime.now(),

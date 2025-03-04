@@ -36,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // Token doğrulamasını atlamak istediğimiz endpoint'ler
         String path = request.getRequestURI();
         if (path.startsWith("/v1/api/product") ||
+                path.startsWith("/v1/api/category/**") ||
                 path.startsWith("/v1/api/order") ||
                 path.startsWith("/v1/api/auth") ||
                 path.startsWith("/v1/api/blog/**") ||

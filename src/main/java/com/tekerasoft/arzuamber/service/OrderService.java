@@ -11,6 +11,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,6 +52,12 @@ public class OrderService {
 
     public PagedModel<EntityModel<OrderDto>> getAllOrders(int page, int size) {
         return pagedResourcesAssembler.toModel(orderRepository.findAll(PageRequest.of(page, size)).map(OrderDto::toDto));
+    }
+
+    public List<OrderDto> getOrderByMail(String mail) {
+        return orderRepository.findUserOrdersByEmail(mail)
+                .stream().map(OrderDto::toDto)
+                .toList();
     }
 
     public ApiResponse<?> deleteOrder(String orderId) {

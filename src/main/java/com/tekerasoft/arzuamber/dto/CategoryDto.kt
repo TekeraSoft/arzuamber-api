@@ -8,16 +8,18 @@ data class CategoryDto(
     val id: UUID,
     val name: String,
     val subCategories: List<String>?,
-    val lang: String
+    val lang: String,
+    val image: String?,
 ) {
     companion object {
         @JvmStatic
-        fun createCategoryEntity(from: CreateCategoryRequest): Category {
+        fun createCategoryEntity(from: CreateCategoryRequest,imgUrl: String): Category {
             return Category(
                 from.id,
                 from.name,
                 from.subCategories,
                 from.lang,
+                imgUrl
             )
         }
 
@@ -28,6 +30,7 @@ data class CategoryDto(
                 from.name,
                 from.subCategories,
                 from.lang,
+                from.image
             )
         }
     }

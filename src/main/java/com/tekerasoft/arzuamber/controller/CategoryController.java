@@ -18,7 +18,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping
+    @GetMapping("/get-categories")
     public ResponseEntity<List<CategoryDto>> getAllCategories(@RequestParam String lang) {
         return ResponseEntity.ok(categoryService.getAllCategories(lang));
     }

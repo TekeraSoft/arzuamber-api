@@ -1,6 +1,8 @@
 package com.tekerasoft.arzuamber.controller;
 
 import com.tekerasoft.arzuamber.dto.ProductDto;
+import com.tekerasoft.arzuamber.model.Color;
+import com.tekerasoft.arzuamber.service.ColorService;
 import com.tekerasoft.arzuamber.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
@@ -18,9 +20,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ColorService colorService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ColorService colorService) {
         this.productService = productService;
+        this.colorService = colorService;
     }
 
     @GetMapping("/products")
@@ -55,6 +59,11 @@ public class ProductController {
                                                              @RequestParam int page, @RequestParam int pageSize)
     {
         return ResponseEntity.ok(productService.filterProducts(lang,size,color,category,length,page,pageSize));
+    }
+
+    @GetMapping("/get-all-colors")
+    public ResponseEntity<List<Color>> getAllColors(@RequestParam String lang) {
+        return ResponseEntity.ok(colorService.getAllColors(lang));
     }
 
 }

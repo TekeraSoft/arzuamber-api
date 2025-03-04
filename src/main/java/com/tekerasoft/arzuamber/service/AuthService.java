@@ -44,21 +44,20 @@ public class AuthService {
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
         Optional<User> user = userRepository.findByEmail(loginRequest.email());
+        if (user.isEmpty()) {
+            throw new UserException("Email or password is incorrect");
+        }
         try {
-            if(user.isPresent()) {
-                Authentication auth = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(loginRequest.email(),loginRequest.password())
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password())
+            );
+            if (auth.isAuthenticated()) {
+                return new JwtResponse(
+                        jwtService.generateToken(addClaims(loginRequest.email()), loginRequest.email()),
+                        jwtService.generateRefreshToken(addClaims(loginRequest.email()), loginRequest.email())
                 );
-                if(auth.isAuthenticated()) {
-                    return new JwtResponse(
-                            jwtService.generateToken(addClaims(loginRequest.email()),loginRequest.email()),
-                            jwtService.generateRefreshToken(addClaims(loginRequest.email()),loginRequest.email())
-                    );
-                }else {
-                    throw new UserException("Email or password is incorrect");
-                }
             }
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new UserException("Email or password is incorrect");
         }
         throw new UserException("Email or password is incorrect");

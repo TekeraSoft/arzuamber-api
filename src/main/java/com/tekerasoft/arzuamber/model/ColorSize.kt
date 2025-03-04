@@ -12,7 +12,7 @@ data class ColorSize @JvmOverloads constructor(
     val color: String,
     @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
     @JoinColumn(name = "color_size_id")
-    var stockSize: Set<StockSize>,
+    var stockSize: List<StockSize>,
     val stockCode: String,
 
     @ElementCollection(fetch = FetchType.EAGER)

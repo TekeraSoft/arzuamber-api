@@ -2,7 +2,9 @@ package com.tekerasoft.arzuamber.controller;
 
 import com.iyzipay.model.ThreedsInitialize;
 import com.iyzipay.model.ThreedsPayment;
+import com.tekerasoft.arzuamber.dto.OrderDto;
 import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
+import com.tekerasoft.arzuamber.service.OrderService;
 import com.tekerasoft.arzuamber.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,18 +13,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/api/order")
 public class OrderController {
     private final PaymentService paymentService;
+    private final OrderService orderService;
 
     @Value("${spring.origin.url}")
     private String originUrl;
 
-    public OrderController(PaymentService paymentService) {
+    public OrderController(PaymentService paymentService, OrderService orderService) {
         this.paymentService = paymentService;
+        this.orderService = orderService;
     }
 
     @PostMapping("/pay")
@@ -56,5 +61,10 @@ public class OrderController {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @GetMapping("/get-user-orders")
+    public ResponseEntity<List<OrderDto>> getUserOrders(@RequestParam String email) {
+        return ResponseEntity.ok(orderService.getOrderByMail(email));
     }
 }

@@ -99,9 +99,10 @@ public class AdminController {
         return ResponseEntity.ok(productService.deleteProductById(id));
     }
 
-    @PostMapping("create-category")
-    public ApiResponse<?> createCategory(@RequestBody List<CreateCategoryRequest> createCategoryRequest) {
-        return categoryService.createCategory(createCategoryRequest);
+    @PostMapping(value = "create-category", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<?> createCategory(@RequestPart("categories") String categoriesJson,
+                                         @RequestPart(value = "images", required = false) List<MultipartFile> images) {
+        return categoryService.createCategory(categoriesJson,images);
     }
 
     @GetMapping("/get-all-category")

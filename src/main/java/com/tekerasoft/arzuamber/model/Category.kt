@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.model
 
 import jakarta.persistence.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @Entity
@@ -15,4 +16,5 @@ data class Category(
     var subCategories: List<String>? = listOf(),
 
     val lang: String,
+    val image: String? = null,
 )
