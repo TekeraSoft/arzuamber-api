@@ -61,6 +61,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.filterProducts(lang,size,color,category,length,page,pageSize));
     }
 
+    @GetMapping("/search-product")
+    public ResponseEntity<List<ProductDto>> searchProduct(@RequestParam("searchTerm") String searchTerm) {
+        return ResponseEntity.ok(productService.searchByNameOrStockCode(searchTerm));
+    }
+
     @GetMapping("/get-all-colors")
     public ResponseEntity<List<Color>> getAllColors(@RequestParam String lang) {
         return ResponseEntity.ok(colorService.getAllColors(lang));

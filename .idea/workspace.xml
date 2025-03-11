@@ -4,84 +4,86 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7b43e65-a156-4ce9-a6d2-88686d631929" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="00023214-16a7-4cbe-a186-561c4bfb392a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/diff-generator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V1__init.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_image_column_to_basket_item.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d/storage_v2/_src_/database/arzuamber-db.1NzF9Q.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/143249e7-1c44-4146-80f2-f1e8d5b4e04d/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5/storage_v2/_src_/database/arzuamber-db.1NzF9Q.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c660d808-580e-4c85-9c5a-57c50da1a3d5/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/CategoryDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/CategoryDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/ColorSizeDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/ColorSizeDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/UpdateProductRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/UpdateProductRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/Blog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/Blog.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/Category.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/Category.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/BasketItemDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/BasketItemDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/OrderDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/OrderDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/CreateCategoryRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/CreateCategoryRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/CreatePaymentRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/CreatePaymentRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/BasketItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/BasketItem.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/ColorSize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/ColorSize.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/Product.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/Product.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/StockSize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/StockSize.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/repository/OrderRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/AuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/CategoryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/PaymentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/utils/JwtAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/utils/JwtAuthFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/controller/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/controller/CategoryController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ColorSizeDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ColorSizeDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ProductDto$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/ProductDto$Companion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/UpdateProductRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/UpdateProductRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Blog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Blog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/BasketItemDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/BasketItemDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/OrderDto$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/OrderDto$Companion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/OrderDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/OrderDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Address.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/BasketItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/BasketItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Buyer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/Buyer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateCategoryRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreateCategoryRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreatePaymentRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/CreatePaymentRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/PaymentCard.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/dto/request/PaymentCard.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/BasketItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/BasketItem.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/ColorSize.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/ColorSize.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/StockSize.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/model/StockSize.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/repository/OrderRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/repository/OrderRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/repository/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/repository/ProductRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/CategoryService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/CategoryService$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/CategoryService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/OrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/PaymentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/PaymentService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/service/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/utils/JwtAuthFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tekerasoft/arzuamber/utils/JwtAuthFilter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Record" />
-        <option value="Dockerfile" />
-        <option value="Kotlin Class" />
-        <option value="Kotlin Enum" />
-        <option value="Interface" />
-        <option value="Kotlin Data Class" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;isMigrated&quot;: true
-}</component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
-}</component>
-  <component name="ProjectId" id="2sLjQGnDhkxJtbUgw3pLDQATa3V" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2u5iOCad0nhAwpAZ6beK6WfhRUL" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
     <option name="flattenModules" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -89,20 +91,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Docker.docker-compose.yml.arzuamber-db: Compose Deployment.executor": "Run",
-    "Maven.arzuamber [-N,io.takari:maven:wrapper].executor": "Run",
-    "Maven.arzuamber [clean,compile].executor": "Run",
-    "Maven.arzuamber [clean,dependency:resolve].executor": "Run",
-    "Maven.arzuamber [clean,install,-DskipTests].executor": "Run",
-    "Maven.arzuamber [clean,install,-U].executor": "Run",
-    "Maven.arzuamber [clean,install...].executor": "Run",
-    "Maven.arzuamber [clean,install].executor": "Run",
-    "Maven.arzuamber [clean,package,-DskipTests...].executor": "Run",
-    "Maven.arzuamber [clean].executor": "Run",
-    "Maven.arzuamber [dependency:resolve].executor": "Run",
-    "Maven.arzuamber [dependency:tree].executor": "Run",
-    "Maven.arzuamber [install].executor": "Run",
+    "Maven.arzuamber [flyway:info].executor": "Run",
+    "Maven.arzuamber [flyway:migrate].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -110,20 +100,15 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.ArzuamberApplication.executor": "Debug",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
     "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "openjdk-21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/bayramalidurak/Desktop/arzuamber/api",
     "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.fileTypes",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -134,22 +119,11 @@
 }]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
-      <command value="mvn clean dependency:resolve" />
-      <command value="mvn -N io.takari:maven:wrapper" />
-      <command value="mvn clean install -Dmaven.test.skip=true" />
-      <command value="mvn clean package -DskipTests -Dmaven.test.skip=true" />
-      <command value="mvn clean install -U" />
-      <command value="mvn dependency:tree" />
-      <command value="mvn dependency:resolve" />
-      <command value="mvn install" />
-      <command value="mvn clean compile" />
-      <command value="mvn clean install -U " />
-      <command value="mvn clean install" />
-      <command value="mvn clean install -DskipTests" />
-      <command value="mvn clean" />
+      <command value="mvn flyway:migrate" />
+      <command value="mvn flyway:info" />
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ArzuamberApplication">
+  <component name="RunManager">
     <configuration name="ArzuamberApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="arzuamber" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.tekerasoft.arzuamber.ArzuamberApplication" />
@@ -157,30 +131,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="docker-compose.yml.arzuamber-db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="services">
-            <list>
-              <option value="arzuamber-db" />
-            </list>
-          </option>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Docker.docker-compose.yml.arzuamber-db: Compose Deployment" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -193,90 +143,18 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c7b43e65-a156-4ce9-a6d2-88686d631929" name="Changes" comment="" />
-      <created>1738241730818</created>
+      <changelist id="00023214-16a7-4cbe-a186-561c4bfb392a" name="Changes" comment="" />
+      <created>1741544802066</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1738241730818</updated>
-      <workItem from="1738241731837" duration="2306000" />
-      <workItem from="1738307332953" duration="6833000" />
-      <workItem from="1738339010539" duration="32000" />
-      <workItem from="1738747590237" duration="5812000" />
-      <workItem from="1738756823116" duration="10536000" />
-      <workItem from="1738833611699" duration="12500000" />
-      <workItem from="1738912671874" duration="4303000" />
-      <workItem from="1738929908301" duration="7063000" />
-      <workItem from="1738937416392" duration="1774000" />
-      <workItem from="1738946509455" duration="773000" />
-      <workItem from="1738999764101" duration="3084000" />
-      <workItem from="1739170746445" duration="10151000" />
-      <workItem from="1739217459346" duration="1609000" />
-      <workItem from="1739259605717" duration="10925000" />
-      <workItem from="1739292136216" duration="598000" />
-      <workItem from="1739346020173" duration="16728000" />
-      <workItem from="1739431040056" duration="22150000" />
-      <workItem from="1739517545111" duration="5029000" />
-      <workItem from="1739604807827" duration="1909000" />
-      <workItem from="1739621708654" duration="17591000" />
-      <workItem from="1739686172268" duration="4452000" />
-      <workItem from="1739698243706" duration="3574000" />
-      <workItem from="1739701966576" duration="344000" />
-      <workItem from="1739702322776" duration="351000" />
-      <workItem from="1739702678468" duration="95000" />
-      <workItem from="1739702777893" duration="94000" />
-      <workItem from="1739702875182" duration="134000" />
-      <workItem from="1739703342776" duration="28000" />
-      <workItem from="1739703603185" duration="38000" />
-      <workItem from="1739703649285" duration="25000" />
-      <workItem from="1739703683886" duration="431000" />
-      <workItem from="1739704170612" duration="39000" />
-      <workItem from="1739704213201" duration="406000" />
-      <workItem from="1739704624161" duration="507000" />
-      <workItem from="1739705136357" duration="219000" />
-      <workItem from="1739705360041" duration="1490000" />
-      <workItem from="1739706859333" duration="133000" />
-      <workItem from="1739706996898" duration="1222000" />
-      <workItem from="1739708226701" duration="3042000" />
-      <workItem from="1739711278983" duration="1370000" />
-      <workItem from="1739712656528" duration="116000" />
-      <workItem from="1739712778445" duration="742000" />
-      <workItem from="1739713527622" duration="227000" />
-      <workItem from="1739713760408" duration="4684000" />
-      <workItem from="1739776765182" duration="26907000" />
-      <workItem from="1739823464359" duration="2373000" />
-      <workItem from="1739862271861" duration="16861000" />
-      <workItem from="1739895715652" duration="598000" />
-      <workItem from="1739948812801" duration="35854000" />
-      <workItem from="1740123138574" duration="25108000" />
-      <workItem from="1740208971255" duration="9722000" />
-      <workItem from="1740221987358" duration="5714000" />
-      <workItem from="1740259410242" duration="22762000" />
-      <workItem from="1740382263547" duration="22695000" />
-      <workItem from="1740425067039" duration="31391000" />
-      <workItem from="1740555691296" duration="21320000" />
-      <workItem from="1740603415626" duration="47635000" />
-      <workItem from="1740753899800" duration="322000" />
-      <workItem from="1740754496325" duration="20000" />
-      <workItem from="1740754937123" duration="12000" />
-      <workItem from="1740813117462" duration="6206000" />
-      <workItem from="1740829002293" duration="31000" />
-      <workItem from="1740986853075" duration="13948000" />
-      <workItem from="1741017624130" duration="615000" />
-      <workItem from="1741072003844" duration="20527000" />
+      <updated>1741544802066</updated>
+      <workItem from="1741544803405" duration="7030000" />
+      <workItem from="1741590011589" duration="9382000" />
+      <workItem from="1741677084630" duration="15778000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="    val stock: Double,&#10;" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

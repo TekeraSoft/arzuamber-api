@@ -15,9 +15,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<Product, UUID> {
-    Page<Product> findByLangIgnoreCase(String lang, Pageable pageable);
+    Page<Product> findByLangIgnoreCaseOrderByCreatedAtDesc(String lang, Pageable pageable);
 
-    Page<Product> findByLangIgnoreCaseAndIsActiveTrue(String lang, Pageable pageable);
+    Page<Product> findByLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(String lang, Pageable pageable);
 
     Optional<Product> findByLangIgnoreCaseAndSlugIgnoreCase(String lang, String slug);
 
@@ -27,10 +27,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     void updateIsActive(@Param("productId") UUID productId, @Param("isActive") boolean isActive);
 
     @Query("SELECT t FROM Product t WHERE t.newSeason = true AND t.lang = :lang AND t.isActive = true")
-    Page<Product> findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrue(@Param("lang") String lang, Pageable pageable);
+    Page<Product> findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(@Param("lang") String lang, Pageable pageable);
 
     @Query("SELECT t FROM Product t WHERE t.populate = true AND t.lang = :lang AND t.isActive = true")
-    Page<Product> findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrue(@Param("lang") String lang, Pageable pageable);
+    Page<Product> findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(@Param("lang") String lang, Pageable pageable);
 
     @Query("SELECT t FROM Product t WHERE t.price IS NOT NULL")
     List<Product> findAllProductPrices();
@@ -72,4 +72,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             @Param("lang") String lang,
             Pageable pageable
     );
+
+    @Query("SELECT p FROM Product p " +
+            "JOIN p.colorSize cs " +
+            "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(cs.stockCode) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<Product> searchByNameOrStockCode(@Param("searchTerm") String searchTerm);
 }

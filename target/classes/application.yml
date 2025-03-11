@@ -2,6 +2,8 @@ spring:
   application:
     name: arzuamber
 
+  #origin:
+  #  url: https://arzuamber.com
   origin:
     url: http://localhost:3000
 
@@ -12,12 +14,14 @@ spring:
     username: arzuamber_user
     password: arzuamber_pass
   jpa:
-    database: postgresql
-    hibernate:
-      ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        ddl-auto: none
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
 
   minio:
     #url: http://arzuamber-blob-storage:9000
@@ -41,7 +45,7 @@ spring:
     base_url: https://sandbox-api.iyzipay.com
 
   payment:
-    callback-url: http://192.168.1.114:8080/v1/api/order/complete-threeds
+    callback-url: http://localhost:8080/v1/api/order/complete-threeds
   #payment:
   #  callback-url: https://arzuamber.com/v1-api/order/complete-threeds
 

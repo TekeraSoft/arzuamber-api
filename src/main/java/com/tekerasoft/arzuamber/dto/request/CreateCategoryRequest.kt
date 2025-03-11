@@ -1,5 +1,6 @@
 package com.tekerasoft.arzuamber.dto.request
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.UUID
 
@@ -12,4 +13,7 @@ data class CreateCategoryRequest(
     val subCategories: List<String>,
     @JsonProperty("lang")
     val lang: String,
+    @JsonProperty("image")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    val image: String? = "",
 )

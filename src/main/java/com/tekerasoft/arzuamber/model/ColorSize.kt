@@ -10,13 +10,16 @@ import java.util.UUID
 data class ColorSize @JvmOverloads constructor(
 
     val color: String,
-    @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
-    @JoinColumn(name = "color_size_id")
+    @OneToMany(mappedBy = "colorSize", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
     var stockSize: List<StockSize>,
     val stockCode: String,
 
     @ElementCollection(fetch = FetchType.EAGER)
     val images: List<String>?,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    val product: Product? = null, // product ile ilişki burada ekleniyor
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

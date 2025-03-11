@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.dto.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.math.BigDecimal
 
 data class CreatePaymentRequest(
     @JsonProperty("paymentCard")
@@ -13,6 +14,8 @@ data class CreatePaymentRequest(
     val basketItems: List<BasketItem>,
     @JsonProperty("billingAddress")
     val billingAddress: Address,
+    @JsonProperty("shippingPrice")
+    val shippingPrice: BigDecimal,
 )
 
 data class PaymentCard(
@@ -89,4 +92,6 @@ data class BasketItem(
     val stockSizeId: String,
     @JsonProperty("stockCode")
     val stockCode: String,
+    @JsonProperty("image")
+    val image: String,
 )

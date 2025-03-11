@@ -23,11 +23,10 @@ data class Product @JvmOverloads constructor(
     val lang: String,
     val length: String,
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
     var colorSize: List<ColorSize>,
     val totalStock: Int? = 0,
-    val purchasePrice: BigDecimal?= BigDecimal.ZERO,
+    val purchasePrice: BigDecimal? = BigDecimal.ZERO,
     val discountPrice: BigDecimal? = BigDecimal.ZERO,
 
     val updatedAt: LocalDateTime? = LocalDateTime.now(),
@@ -40,3 +39,4 @@ data class Product @JvmOverloads constructor(
     val isActive: Boolean? = true,
 
     )
+

@@ -9,5 +9,6 @@ data class BasketItemDto(
     val size: String,
     val color: String,
     val stockSizeId: String,
-    val stockCode: String
+    val stockCode: String,
+    val image: String,
 )

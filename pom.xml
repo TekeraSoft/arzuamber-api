@@ -31,6 +31,7 @@
         <jwt.version>0.11.5</jwt.version>
         <minio.version>8.5.11</minio.version>
         <kotlin.version>1.9.23</kotlin.version>
+        <flyway.version>10.20.1</flyway.version>
     </properties>
     <dependencies>
         <dependency>
@@ -85,6 +86,15 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.minio</groupId>
@@ -137,6 +147,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5435/arzuamber-db</url>
+                    <user>arzuamber_user</user>
+                    <password>arzuamber_pass</password>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>

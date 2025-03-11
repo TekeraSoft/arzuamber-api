@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PaymentService {
@@ -103,6 +104,18 @@ public class PaymentService {
                 basketItems.add(basketI);
             }
 
+            if (req.getShippingPrice().compareTo(BigDecimal.ZERO) > 0) {
+                BasketItem shippingItem = new BasketItem();
+                shippingItem.setId("SHIPPING");
+                shippingItem.setName("Kargo Ücreti");
+                shippingItem.setCategory1("Ekstra Hizmet");
+                shippingItem.setCategory2("Kargo");
+                shippingItem.setItemType(BasketItemType.PHYSICAL.name()); // Sanal olmasın
+                shippingItem.setPrice(req.getShippingPrice());
+
+                basketItems.add(shippingItem);
+            }
+
             // ProductId ve quantity bilgisi geliyor ürünün stoğunu renk ve bedene göre veritabanından düşecek
 
 // Tüm ürünlerin toplam fiyatını hesapla
@@ -118,54 +131,58 @@ public class PaymentService {
             ThreedsInitialize threedsInitialize =  ThreedsInitialize.create(request,options);
 
             try {
-                orderService.save(new OrderDto(
-                        new BuyerDto(
-                                req.getBuyer().getName(),
-                                req.getBuyer().getSurname(),
-                                req.getBuyer().getGsmNumber(),
-                                req.getBuyer().getEmail(),
-                                req.getBuyer().getIp(),
-                                req.getBuyer().getIdentityNumber(),
-                                req.getBuyer().getLastLoginDate(),
-                                req.getBuyer().getRegistrationDate(),
-                                req.getBuyer().getRegistrationAddress()
-                        ),
-                        new AddressDto(
-                                req.getShippingAddress().getContactName(),
-                                req.getShippingAddress().getCity(),
-                                req.getShippingAddress().getState(),
-                                req.getShippingAddress().getCountry(),
-                                req.getShippingAddress().getAddress(),
-                                req.getShippingAddress().getStreet(),
-                                req.getShippingAddress().getZipCode()
-                        ),
-                        new AddressDto(
-                                req.getBillingAddress().getContactName(),
-                                req.getBillingAddress().getCity(),
-                                req.getBillingAddress().getState(),
-                                req.getBillingAddress().getCountry(),
-                                req.getBillingAddress().getAddress(),
-                                req.getBillingAddress().getStreet(),
-                                req.getBillingAddress().getZipCode()
-                        ),
-                        req.getBasketItems().stream().map(bi -> new BasketItemDto(
-                                bi.getName(),
-                                bi.getCategory1(),
-                                bi.getCategory2(),
-                                bi.getPrice(),
-                                bi.getQuantity(),
-                                bi.getSize(),
-                                bi.getColor(),
-                                bi.getStockSizeId(),
-                                bi.getStockCode()
-                        )).toList(),
-                        totalPrice,
-                        OrderStatus.PENDING,
-                        LocalDateTime.now(),
-                        threedsInitialize.getPaymentId()
-                ));
-            } catch (Exception e) {
-                e.printStackTrace();  // Hatanın ne olduğunu görmek için logla
+                if(threedsInitialize.getStatus().equals("success")) {
+                    orderService.save(new OrderDto(
+                            new BuyerDto(
+                                    req.getBuyer().getName(),
+                                    req.getBuyer().getSurname(),
+                                    req.getBuyer().getGsmNumber(),
+                                    req.getBuyer().getEmail(),
+                                    req.getBuyer().getIp(),
+                                    req.getBuyer().getIdentityNumber(),
+                                    req.getBuyer().getLastLoginDate(),
+                                    req.getBuyer().getRegistrationDate(),
+                                    req.getBuyer().getRegistrationAddress()
+                            ),
+                            new AddressDto(
+                                    req.getShippingAddress().getContactName(),
+                                    req.getShippingAddress().getCity(),
+                                    req.getShippingAddress().getState(),
+                                    req.getShippingAddress().getCountry(),
+                                    req.getShippingAddress().getAddress(),
+                                    req.getShippingAddress().getStreet(),
+                                    req.getShippingAddress().getZipCode()
+                            ),
+                            new AddressDto(
+                                    req.getBillingAddress().getContactName(),
+                                    req.getBillingAddress().getCity(),
+                                    req.getBillingAddress().getState(),
+                                    req.getBillingAddress().getCountry(),
+                                    req.getBillingAddress().getAddress(),
+                                    req.getBillingAddress().getStreet(),
+                                    req.getBillingAddress().getZipCode()
+                            ),
+                            req.getBasketItems().stream().map(bi -> new BasketItemDto(
+                                    bi.getName(),
+                                    bi.getCategory1(),
+                                    bi.getCategory2(),
+                                    bi.getPrice(),
+                                    bi.getQuantity(),
+                                    bi.getSize(),
+                                    bi.getColor(),
+                                    bi.getStockSizeId(),
+                                    bi.getStockCode(),
+                                    bi.getImage()
+                            )).toList(),
+                            totalPrice,
+                            OrderStatus.PENDING,
+                            LocalDateTime.now(),
+                            threedsInitialize.getPaymentId(),
+                            null
+                    ));
+                }
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getMessage());
             }
 
             return threedsInitialize;

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tekerasoft.arzuamber.dto.CategoryDto;
 import com.tekerasoft.arzuamber.dto.request.CreateCategoryRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
+import com.tekerasoft.arzuamber.model.Category;
 import com.tekerasoft.arzuamber.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,16 +34,31 @@ public class CategoryService {
             List<CreateCategoryRequest> categoryRequests = objectMapper.readValue(categoriesJson,
                     new TypeReference<List<CreateCategoryRequest>>() {});
 
-                for(CreateCategoryRequest catReq : categoryRequests){
-                    for(MultipartFile image : images){
-                        String imageUrl = fileService.fileUpload(image);
-                        categoryRepository.save(CategoryDto.createCategoryEntity(catReq, imageUrl));
-                    }
+            Map<String, String> imageMap = new HashMap<>();
+
+            if(images != null && !images.isEmpty()) {
+                for(MultipartFile image : images) {
+                    String categoryKey = image.getOriginalFilename().split("_")[0];
+                    String imageUrl = fileService.fileUpload(image);
+                    imageMap.computeIfAbsent(categoryKey, k -> imageUrl);
                 }
+            }
+
+            categoryRequests.forEach(c -> {
+                String imageUrl = imageMap.getOrDefault(c.getName(), c.getImage());
+                Category category = new Category(
+                        c.getId(),
+                        c.getName(),
+                        c.getSubCategories(),
+                        c.getLang(),
+                        imageUrl
+                );
+                categoryRepository.save(category);
+            });
+            return new ApiResponse<>("Category Updated",null, true);
             } catch (RuntimeException | JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-        return new ApiResponse<>("Category Updated", null, true);
     }
 
     public List<CategoryDto> getAllCategories(String lang) {

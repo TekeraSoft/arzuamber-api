@@ -113,24 +113,24 @@ public class ProductService {
 
     public PagedModel<EntityModel<ProductDto>> getAllProducts(String lang, int page, int size) {
 
-        return pagedResourcesAssembler.toModel(productRepository.findByLangIgnoreCase(lang,PageRequest.of(page,size))
+        return pagedResourcesAssembler.toModel(productRepository.findByLangIgnoreCaseOrderByCreatedAtDesc(lang,PageRequest.of(page,size))
                 .map(ProductDto::toDto));
     }
 
     public PagedModel<EntityModel<ProductDto>> getAllProductsByActive(String lang, int page, int size) {
         return pagedResourcesAssembler.toModel(
-                productRepository.findByLangIgnoreCaseAndIsActiveTrue(lang,PageRequest.of(page,size))
+                productRepository.findByLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(lang,PageRequest.of(page,size))
                         .map(ProductDto::toDto)
         );
     }
 
     public List<ProductDto> getAllNewSeasonProduct(String lang, int page, int size) {
-        return productRepository.findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrue(lang,PageRequest.of(page,size))
+        return productRepository.findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(lang,PageRequest.of(page,size))
                 .stream().map(ProductDto::toDto).collect(Collectors.toList());
     }
 
     public List<ProductDto> getAllPopulateProduct(String lang, int page, int size) {
-        return productRepository.findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrue(lang,PageRequest.of(page,size))
+        return productRepository.findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(lang,PageRequest.of(page,size))
                 .stream().map(ProductDto::toDto)
                 .collect(Collectors.toList());
     }
@@ -143,15 +143,17 @@ public class ProductService {
 
     public ApiResponse<?> updateProduct(String lang, String dataJson, List<MultipartFile> images) {
         try {
+            // Verilen JSON verisini 'UpdateProductRequest' sınıfına dönüştürüyoruz
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
             UpdateProductRequest upReq = objectMapper.readValue(dataJson, UpdateProductRequest.class);
 
+            // Ürünü ID'sine göre buluyoruz
             Product product = productRepository.findById(UUID.fromString(upReq.getId()))
                     .orElseThrow(() -> new ProductNotFoundException("Product not found " + upReq.getId()));
 
-            List<String> deletedImages = upReq.getDeletedImages(); // 🚨 Silinen resimleri al
-
+            // Silinen resimleri işliyoruz
+            List<String> deletedImages = upReq.getDeletedImages();
             if (deletedImages != null && !deletedImages.isEmpty()) {
                 for (String url : deletedImages) {
                     try {
@@ -162,41 +164,56 @@ public class ProductService {
                 }
             }
 
+            // Yeni resimleri işle
             Map<String, List<String>> imageMap = new HashMap<>();
-
             if (images != null && !images.isEmpty()) {
                 for (MultipartFile image : images) {
-                    String colorKey = image.getOriginalFilename().split("_")[0];
+                    String colorKey = image.getOriginalFilename().split("_")[0];  // Renk anahtarını çıkarıyoruz
                     String imageUrl = fileService.fileUpload(image);
                     imageMap.computeIfAbsent(colorKey, k -> new ArrayList<>()).add(imageUrl);
                 }
             }
 
+            // Mevcut ColorSize ilişkilerini alıyoruz
             Map<String, ColorSize> existingColorSizes = product.getColorSize()
                     .stream()
                     .collect(Collectors.toMap(ColorSize::getColor, Function.identity()));
 
+            // Güncellenmiş ColorSize nesnelerini oluşturuyoruz
             List<ColorSize> updatedColorSizes = upReq.getColorSize().stream().map(colorSizeReq -> {
                 ColorSize existingColorSize = existingColorSizes.get(colorSizeReq.getColor());
 
-                List<String> newImages = new ArrayList<>(imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>()));
-
+                // Yeni resimleri işliyoruz, varsa mevcut resimleri de ekliyoruz
+                List<String> newImages = new ArrayList<>();
                 if (existingColorSize != null && existingColorSize.getImages() != null) {
                     newImages.addAll(existingColorSize.getImages());
                 }
 
-                // 🚀 Silinen resimleri kaldır
+                List<String> uploadedImages = imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>());
+                newImages.addAll(uploadedImages); // Sonra yeni yüklenen resimleri ekle
+
+                // Silinen resimleri kaldırıyoruz
                 newImages.removeAll(deletedImages);
 
-                return new ColorSize(
+                // Yeni ColorSize nesnesini oluşturuyoruz
+                // Burada ColorSize önce oluşturuluyor, sonra StockSize'e ilişkilendiriliyor
+                ColorSize updatedColorSize = new ColorSize(
                         colorSizeReq.getColor(),
-                        colorSizeReq.getStockSize().stream()
-                                .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
-                                .collect(Collectors.toList()),
+                        new ArrayList<>(), // İlk başta boş liste ile başlatıyoruz
                         (existingColorSize != null) ? existingColorSize.getStockCode() : StockCodeGenerator.generateStockCode(8),
                         newImages.isEmpty() ? colorSizeReq.getImages() : newImages,
-                        (existingColorSize != null) ? (existingColorSize.getId()) : null
+                        (existingColorSize != null) ? existingColorSize.getProduct() : product
                 );
+
+                // StockSize'leri ilişkilendiriyoruz
+                List<StockSize> stockSizes = colorSizeReq.getStockSize().stream()
+                        .map(ss -> new StockSize(ss.getSize(), ss.getStock(), updatedColorSize)) // Burada StockSize'ı oluştururken updatedColorSize'ı kullanıyoruz
+                        .collect(Collectors.toList());
+
+                // ColorSize'in StockSize listesini güncelliyoruz
+                updatedColorSize.setStockSize(stockSizes);
+
+                return updatedColorSize;
             }).collect(Collectors.toList());
 
             Product newProduct = new Product(
@@ -297,6 +314,13 @@ public class ProductService {
 
     public void reduceStock(String stockSizeId, int quantity) {
         productRepository.reduceStock(UUID.fromString(stockSizeId),quantity);
+    }
+
+    public List<ProductDto> searchByNameOrStockCode(String searchTerm) {
+        return productRepository.searchByNameOrStockCode(searchTerm)
+                .stream()
+                .map(ProductDto::toDto)
+                .collect(Collectors.toList());
     }
 
 }

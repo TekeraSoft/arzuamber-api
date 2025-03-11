@@ -18,6 +18,7 @@ data class BasketItem @JvmOverloads constructor(
     val color: String,
     val stockSizeId: String,
     val stockCode: String,
+    val image: String,
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

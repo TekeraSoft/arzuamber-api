@@ -84,7 +84,7 @@ public class AdminController {
         return ResponseEntity.ok(orderService.getAllOrders(page,size));
     }
 
-    @GetMapping("/delete-order")
+    @DeleteMapping("/delete-order")
     public ResponseEntity<ApiResponse<?>> deleteOrder(@RequestParam String id) {
         return ResponseEntity.ok(orderService.deleteOrder(id));
     }
@@ -100,7 +100,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "create-category", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<?> createCategory(@RequestPart("categories") String categoriesJson,
+    public ApiResponse<?> createCategory(@RequestPart("categoriesJson") String categoriesJson,
                                          @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         return categoryService.createCategory(categoriesJson,images);
     }
