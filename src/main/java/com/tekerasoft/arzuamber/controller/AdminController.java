@@ -6,10 +6,7 @@ import com.tekerasoft.arzuamber.dto.OrderDto;
 import com.tekerasoft.arzuamber.dto.ProductDto;
 import com.tekerasoft.arzuamber.dto.request.*;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
-import com.tekerasoft.arzuamber.model.Blog;
-import com.tekerasoft.arzuamber.model.Color;
-import com.tekerasoft.arzuamber.model.Contact;
-import com.tekerasoft.arzuamber.model.OrderStatus;
+import com.tekerasoft.arzuamber.model.*;
 import com.tekerasoft.arzuamber.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
@@ -30,31 +27,34 @@ public class AdminController {
     private final OrderService orderService;
     private final BlogService blogService;
     private final ContactService contactService;
+    private final SliderImageService sliderImageService;
 
     public AdminController(ProductService productService, CategoryService categoryService, ColorService colorService,
-                           OrderService orderService, BlogService blogService, ContactService contactService) {
+                           OrderService orderService, BlogService blogService, ContactService contactService,
+                           SliderImageService sliderImageService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.colorService = colorService;
         this.orderService = orderService;
         this.blogService = blogService;
         this.contactService = contactService;
+        this.sliderImageService = sliderImageService;
     }
 
     @PostMapping("/create-product")
     public ResponseEntity<ApiResponse<?>> createProduct(@RequestParam String lang,
                                                         @RequestPart("data") CreateProductRequest createProductRequest,
                                                         @RequestPart("images") List<MultipartFile> images) {
-        return ResponseEntity.ok(productService.createProduct(lang,createProductRequest,images));
+        return ResponseEntity.ok(productService.createProduct(lang, createProductRequest, images));
     }
 
     @PutMapping("/update-product")
     public ResponseEntity<ApiResponse<?>> updateProduct(@RequestParam String lang,
                                                         @RequestParam("data") String dataJson,
                                                         @RequestPart(value = "images", required = false)
-                                                            List<MultipartFile> images) throws RuntimeException {
+                                                        List<MultipartFile> images) throws RuntimeException {
         try {
-            return ResponseEntity.ok(productService.updateProduct(lang,dataJson,images));
+            return ResponseEntity.ok(productService.updateProduct(lang, dataJson, images));
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -64,14 +64,14 @@ public class AdminController {
     @PatchMapping("/update-product-active")
     public ResponseEntity<ApiResponse<?>> updateProductActive(@RequestParam("productId") String productId,
                                                               @RequestParam("active") boolean active) {
-        return ResponseEntity.ok(productService.changeProductActive(productId,active));
+        return ResponseEntity.ok(productService.changeProductActive(productId, active));
     }
 
     @GetMapping("/get-all-product")
     public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getAllProduct(@RequestParam String lang,
-                                           @RequestParam int page,
-                                           @RequestParam int size) {
-        return ResponseEntity.ok(productService.getAllProducts(lang,page, size));
+                                                                             @RequestParam int page,
+                                                                             @RequestParam int size) {
+        return ResponseEntity.ok(productService.getAllProducts(lang, page, size));
     }
 
     @GetMapping("/get-product")
@@ -81,7 +81,7 @@ public class AdminController {
 
     @GetMapping("/get-all-order")
     public ResponseEntity<PagedModel<EntityModel<OrderDto>>> getAllOrder(@RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(orderService.getAllOrders(page,size));
+        return ResponseEntity.ok(orderService.getAllOrders(page, size));
     }
 
     @DeleteMapping("/delete-order")
@@ -91,7 +91,7 @@ public class AdminController {
 
     @PatchMapping("/change-order-status")
     public ResponseEntity<ApiResponse<?>> changeOrderStatus(@RequestParam String orderId, @RequestParam OrderStatus status) {
-        return ResponseEntity.ok(orderService.changeOrderStatusWithAdmin(orderId,status));
+        return ResponseEntity.ok(orderService.changeOrderStatusWithAdmin(orderId, status));
     }
 
     @DeleteMapping("/delete-product")
@@ -102,7 +102,7 @@ public class AdminController {
     @PostMapping(value = "create-category", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<?> createCategory(@RequestPart("categoriesJson") String categoriesJson,
                                          @RequestPart(value = "images", required = false) List<MultipartFile> images) {
-        return categoryService.createCategory(categoriesJson,images);
+        return categoryService.createCategory(categoriesJson, images);
     }
 
     @GetMapping("/get-all-category")
@@ -134,7 +134,7 @@ public class AdminController {
     public ResponseEntity<ApiResponse<?>> createBlog(@RequestParam String lang,
                                                      @RequestPart("values") CreateBlogRequest req,
                                                      @RequestPart("image") MultipartFile image) {
-        return ResponseEntity.ok(blogService.createBlog(lang,req,image));
+        return ResponseEntity.ok(blogService.createBlog(lang, req, image));
     }
 
     @DeleteMapping("/delete-blog")
@@ -144,11 +144,26 @@ public class AdminController {
 
     @GetMapping("/get-all-contact")
     public ResponseEntity<PagedModel<EntityModel<Contact>>> getAllContact(@RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(contactService.getAllContacts(page,size));
+        return ResponseEntity.ok(contactService.getAllContacts(page, size));
     }
 
     @DeleteMapping("/delete-contact")
     public ResponseEntity<ApiResponse<?>> deleteContact(@RequestParam String id) {
         return ResponseEntity.ok(contactService.deleteContact(id));
+    }
+
+    @GetMapping("/get-all-slider")
+    public ResponseEntity<List<SliderImage>> getAllSlider(@RequestParam String lang) {
+        return ResponseEntity.ok(sliderImageService.getAllSliderImages(lang));
+    }
+
+    @PostMapping("/create-slider")
+    public ResponseEntity<ApiResponse<?>> createSlider(@RequestParam String lang, List<MultipartFile> images) {
+        return ResponseEntity.ok(sliderImageService.createSliderImage(lang, images));
+    }
+
+    @DeleteMapping("/delete-slider")
+    public ResponseEntity<ApiResponse<?>> deleteSlider(@RequestParam String id) {
+        return ResponseEntity.ok(sliderImageService.deleteSliderImage(id));
     }
 }
