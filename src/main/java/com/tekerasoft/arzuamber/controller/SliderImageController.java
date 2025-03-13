@@ -3,6 +3,7 @@ package com.tekerasoft.arzuamber.controller;
 import com.tekerasoft.arzuamber.model.SliderImage;
 import com.tekerasoft.arzuamber.service.SliderImageService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ public class SliderImageController {
         this.sliderImageService = sliderImageService;
     }
 
+    @GetMapping
     public ResponseEntity<List<SliderImage>> findAll(String lang) {
         return ResponseEntity.ok(sliderImageService.getAllSliderImages(lang));
     }

@@ -50,27 +50,15 @@ public class ProductService {
             Map<String, List<String>> imageMap = new HashMap<>();
 
             for (MultipartFile image : images) {
-                String colorKey = image.getOriginalFilename().split("_")[0]; // "blue_1.jpg" -> "blue"
+                String[] parts = image.getOriginalFilename().split("_");
+                if (parts.length == 0) continue; // Eğer dosya ismi uygun değilse atla
+                String colorKey = parts[0]; // Örneğin: "blue_1.jpg" -> "blue"
                 String imageUrl = fileService.fileUpload(image);
                 imageMap.computeIfAbsent(colorKey, k -> new ArrayList<>()).add(imageUrl);
             }
 
-            // 2️⃣ colorSize içindeki `color` alanına göre görselleri eşleştir
-            List<ColorSize> colorSizes = req.getColorSize().stream().map(colorSizeReq -> {
-                List<String> imgUrls = imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>());
-
-                return new ColorSize(
-                        colorSizeReq.getColor(),
-                        colorSizeReq.getStockSize().stream()
-                                .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
-                                .collect(Collectors.toList()),
-                        StockCodeGenerator.generateStockCode(8),
-                        imgUrls
-                );
-            }).collect(Collectors.toList());
-
-            // 3️⃣ Yeni Ürün Kaydetme
-            Product newProduct = new Product(
+            // 2️⃣ Önce `Product` nesnesini oluştur ve kaydet
+            final Product savedProduct = productRepository.save(new Product(
                     req.getName(),
                     SlugGenerator.generateSlug(req.getName()),
                     req.getPopulate(),
@@ -81,15 +69,42 @@ public class ProductService {
                     req.getPrice(),
                     lang,
                     req.getLength(),
-                    colorSizes,
+                    new ArrayList<>(),  // Başlangıçta boş liste
+                    0,  // Toplam stok 0 olarak başlatılacak, aşağıda hesaplanacak
+                    req.getPurchasePrice()
+            ));
+
+            // 3️⃣ `ColorSize` nesnelerini oluştur ve `Product` nesnesini set et
+            List<ColorSize> colorSizes = req.getColorSize().stream().map(colorSizeReq -> {
+                List<String> imgUrls = imageMap.getOrDefault(colorSizeReq.getColor(), new ArrayList<>());
+
+                ColorSize colorSize = new ColorSize(
+                        colorSizeReq.getColor(),
+                        colorSizeReq.getStockSize().stream()
+                                .map(ss -> new StockSize(ss.getSize(), ss.getStock()))
+                                .collect(Collectors.toList()),
+                        StockCodeGenerator.generateStockCode(8),
+                        imgUrls,
+                        savedProduct // 🔥 Burada `final Product` kullanıyoruz!
+                );
+
+                // `StockSize` nesnelerine `ColorSize` referansını ekleyelim
+                colorSize.getStockSize().forEach(stockSize -> stockSize.setColorSize(colorSize));
+
+                return colorSize;
+            }).collect(Collectors.toList());
+
+            // 4️⃣ `ColorSize` nesnelerini `Product` nesnesine set et ve kaydet
+            savedProduct.setColorSize(colorSizes);
+            savedProduct.setTotalStock(
                     colorSizes.stream()
                             .flatMap(cs -> cs.getStockSize().stream())
                             .mapToInt(StockSize::getStock)
-                            .sum(),
-                    req.getPurchasePrice()
+                            .sum()
             );
 
-            productRepository.save(newProduct);
+            productRepository.save(savedProduct); // ✅ Güncellenmiş `Product` tekrar kaydedildi
+
             return new ApiResponse<>("Product Created", null, true);
         } catch (RuntimeException e) {
             throw new ProductException(e.getMessage());

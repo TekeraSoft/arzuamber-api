@@ -25,7 +25,7 @@ data class Product @JvmOverloads constructor(
 
     @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
     var colorSize: List<ColorSize>,
-    val totalStock: Int? = 0,
+    var totalStock: Int? = 0,
     val purchasePrice: BigDecimal? = BigDecimal.ZERO,
     val discountPrice: BigDecimal? = BigDecimal.ZERO,
 

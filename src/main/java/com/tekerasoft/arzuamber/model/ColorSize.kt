@@ -19,7 +19,7 @@ data class ColorSize @JvmOverloads constructor(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    val product: Product? = null, // product ile ilişki burada ekleniyor
+    var product: Product? = null, // product ile ilişki burada ekleniyor
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
