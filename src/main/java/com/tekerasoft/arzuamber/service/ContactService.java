@@ -1,5 +1,6 @@
 package com.tekerasoft.arzuamber.service;
 
+import com.tekerasoft.arzuamber.dto.ContactDto;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.model.Contact;
 import com.tekerasoft.arzuamber.repository.ContactRepository;
@@ -14,9 +15,9 @@ import java.util.UUID;
 @Service
 public class ContactService {
     private final ContactRepository contactRepository;
-    private final PagedResourcesAssembler<Contact> pagedResourcesAssembler;
+    private final PagedResourcesAssembler<ContactDto> pagedResourcesAssembler;
 
-    public ContactService(ContactRepository contactRepository, PagedResourcesAssembler<Contact> pagedResourcesAssembler) {
+    public ContactService(ContactRepository contactRepository, PagedResourcesAssembler<ContactDto> pagedResourcesAssembler) {
         this.contactRepository = contactRepository;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
@@ -30,8 +31,8 @@ public class ContactService {
         }
     }
 
-    public PagedModel<EntityModel<Contact>> getAllContacts(int page, int size) {
-        return pagedResourcesAssembler.toModel(contactRepository.findAll(PageRequest.of(page,size)));
+    public PagedModel<EntityModel<ContactDto>> getAllContacts(int page, int size) {
+        return pagedResourcesAssembler.toModel(contactRepository.findAll(PageRequest.of(page,size)).map(ContactDto::toDto));
     }
 
     public ApiResponse<?> deleteContact(String id) {

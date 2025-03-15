@@ -50,6 +50,16 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
+    public String extractRole(String token) {
+        Claims claims = Jwts
+                .parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return (String) claims.get("role");
+    }
+
     public String extractUser(String token) {
         Claims claims = Jwts
                 .parserBuilder()

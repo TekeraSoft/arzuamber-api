@@ -10,6 +10,8 @@ data class UpdateProductRequest(
     val id: String,
     @JsonProperty("name")
     val name: String,
+    @JsonProperty("slug")
+    val slug: String,
     @JsonProperty("populate")
     val populate: Boolean,
     @JsonProperty("newSeason")

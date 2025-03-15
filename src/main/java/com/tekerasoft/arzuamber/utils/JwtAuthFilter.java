@@ -33,25 +33,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Token doğrulamasını atlamak istediğimiz endpoint'ler
-        String path = request.getRequestURI();
-        if (path.startsWith("/v1/api/product") ||
-                path.startsWith("/v1/api/category/**") ||
-                path.startsWith("/v1/api/order") ||
-                path.startsWith("/v1/api/auth") ||
-                path.startsWith("/v1/api/blog/**") ||
-                path.startsWith("/v1/api/contact/**") ||
-                path.startsWith("/v1/api/slider/**")) {
-            filterChain.doFilter(request, response); // Doğrudan devam et
-            return;
-        }
+        String token = extractTokenFromCookies(request);
 
-        // Token doğrulama işlemi
-        String username = null;
-        try {
-            String token = extractTokenFromCookies(request);
-            if (token != null) {
-                username = jwtService.extractUser(token);
+        if (token != null) {
+            try {
+                String username = jwtService.extractUser(token);
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userService.loadUserByUsername(username);
                     if (jwtService.validateToken(token, userDetails)) {
@@ -61,32 +47,32 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }
+            } catch (ExpiredJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token expired");
+                response.getWriter().flush();
+                return;
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(e.getMessage());
+                response.getWriter().flush();
+                return;
             }
-            filterChain.doFilter(request, response); // Devam et
-        } catch (ExpiredJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token expired");
-            response.getWriter().flush();
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write(e.getMessage());
-            response.getWriter().flush();
         }
+        filterChain.doFilter(request, response);
     }
 
     public static String extractTokenFromCookies(HttpServletRequest request) {
-        // Tüm cookie'leri al
+        // Cookie'lerden token'ı al
         Cookie[] cookies = request.getCookies();
-
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                // Eğer cookie'nin adı 'session-token' veya başka bir token adı ise
                 if ("next-auth.session-token".equals(cookie.getName()) || "__Secure-next-auth.session-token".equals(cookie.getName())) {
-                    return cookie.getValue(); // Token'ı döndür
+                    return cookie.getValue();  // Token'ı döndür
                 }
             }
         }
-        return null; // Eğer cookie yoksa null döndür
+        return null;  // Token yoksa null döndür
     }
 }
 

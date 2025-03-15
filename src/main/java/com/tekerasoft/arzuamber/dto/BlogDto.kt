@@ -2,8 +2,10 @@ package com.tekerasoft.arzuamber.dto
 
 import com.tekerasoft.arzuamber.model.Blog
 import com.tekerasoft.arzuamber.utils.SlugGenerator
+import java.util.UUID
 
 data class BlogDto(
+    val id: UUID?,
     val title: String,
     val slug: String,
     val category: String,
@@ -14,6 +16,7 @@ data class BlogDto(
         @JvmStatic
         fun toDto(from: Blog): BlogDto {
             return BlogDto(
+                from.id,
                 from.title,
                 from.slug,
                 from.category,

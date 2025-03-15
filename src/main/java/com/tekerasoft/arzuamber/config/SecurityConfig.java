@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,8 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -49,15 +53,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                "/v1/api/product/**",
-                                "/v1/api/category/**",
-                                "/v1/api/order/**",
-                                "/v1/api/auth/**",
-                                "/v1/api/blog/**",
-                                "/v1/api/contact/**",
-                                "/v1/api/slider/**"
-                        ).permitAll()
+                        .requestMatchers("/ws/**").permitAll()  // WebSocket izin ver
+                        .requestMatchers("/v1/api/product/**", "/v1/api/category/**",
+                                "/v1/api/order/**", "/v1/api/auth/**",
+                                "/v1/api/blog/**", "/v1/api/contact/**",
+                                "/v1/api/slider/**").permitAll()
                         .requestMatchers("/v1/api/admin/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/v1/api/user/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -78,6 +79,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true); // Kimlik doğrulama bilgilerini dahil et (örn. Cookie)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/ws/**", configuration);
         source.registerCorsConfiguration("/**", configuration); // Tüm endpoint'ler için CORS konfigürasyonu
         return source;
     }

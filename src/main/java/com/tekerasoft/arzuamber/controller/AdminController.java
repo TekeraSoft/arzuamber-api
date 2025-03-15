@@ -1,9 +1,6 @@
 package com.tekerasoft.arzuamber.controller;
 
-import com.tekerasoft.arzuamber.dto.BlogDto;
-import com.tekerasoft.arzuamber.dto.CategoryDto;
-import com.tekerasoft.arzuamber.dto.OrderDto;
-import com.tekerasoft.arzuamber.dto.ProductDto;
+import com.tekerasoft.arzuamber.dto.*;
 import com.tekerasoft.arzuamber.dto.request.*;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.model.*;
@@ -40,6 +37,8 @@ public class AdminController {
         this.contactService = contactService;
         this.sliderImageService = sliderImageService;
     }
+
+    //public PagedModel<EntityModel<OrderDto>> getAllOrders(Payload)
 
     @PostMapping("/create-product")
     public ResponseEntity<ApiResponse<?>> createProduct(@RequestParam String lang,
@@ -79,14 +78,14 @@ public class AdminController {
         return ResponseEntity.ok(productService.getProduct(id));
     }
 
-    @GetMapping("/get-all-order")
-    public ResponseEntity<PagedModel<EntityModel<OrderDto>>> getAllOrder(@RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(orderService.getAllOrders(page, size));
-    }
-
     @DeleteMapping("/delete-order")
     public ResponseEntity<ApiResponse<?>> deleteOrder(@RequestParam String id) {
         return ResponseEntity.ok(orderService.deleteOrder(id));
+    }
+
+    @GetMapping("/get-all-order")
+    public ResponseEntity<PagedModel<EntityModel<OrderDto>>> getAllOrder(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(orderService.getAllOrders(page,size));
     }
 
     @PatchMapping("/change-order-status")
@@ -137,13 +136,18 @@ public class AdminController {
         return ResponseEntity.ok(blogService.createBlog(lang, req, image));
     }
 
+    @GetMapping("/get-all-blog")
+    public ResponseEntity<PagedModel<EntityModel<BlogDto>>> getAllBlogs(@RequestParam String lang, @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(blogService.getAllBlogs(lang, page, size));
+    }
+
     @DeleteMapping("/delete-blog")
     public ResponseEntity<ApiResponse<?>> deleteBlog(@RequestParam String id) {
         return ResponseEntity.ok(blogService.deleteBlog(id));
     }
 
     @GetMapping("/get-all-contact")
-    public ResponseEntity<PagedModel<EntityModel<Contact>>> getAllContact(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PagedModel<EntityModel<ContactDto>>> getAllContact(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(contactService.getAllContacts(page, size));
     }
 

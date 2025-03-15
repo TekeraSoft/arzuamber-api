@@ -233,7 +233,7 @@ public class ProductService {
 
             Product newProduct = new Product(
                     upReq.getName(),
-                    SlugGenerator.generateSlug(upReq.getName()),
+                    upReq.getSlug(),
                     upReq.getPopulate(),
                     upReq.getNewSeason(),
                     upReq.getCategory(),
