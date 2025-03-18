@@ -5,7 +5,6 @@ import com.tekerasoft.arzuamber.dto.request.*;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.model.*;
 import com.tekerasoft.arzuamber.service.*;
-import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;

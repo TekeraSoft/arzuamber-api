@@ -1,7 +1,6 @@
 package com.tekerasoft.arzuamber.service;
 
 import com.tekerasoft.arzuamber.dto.OrderDto;
-import com.tekerasoft.arzuamber.dto.request.OrderRequestDto;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.model.Order;
 import com.tekerasoft.arzuamber.model.OrderStatus;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +20,18 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final PagedResourcesAssembler<OrderDto> pagedResourcesAssembler;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public OrderService(OrderRepository orderRepository, PagedResourcesAssembler<OrderDto> pagedResourcesAssembler, PagedResourcesAssembler<OrderDto> pagedResourcesAssembler1) {
+    public OrderService(OrderRepository orderRepository, PagedResourcesAssembler<OrderDto> pagedResourcesAssembler1,
+                        SimpMessagingTemplate messagingTemplate) {
         this.orderRepository = orderRepository;
         this.pagedResourcesAssembler = pagedResourcesAssembler1;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public void save(OrderDto order) {
         try {
-            orderRepository.save(OrderDto.toEntity(order));
+           orderRepository.save(OrderDto.toEntity(order));
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

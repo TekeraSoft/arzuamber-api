@@ -56,9 +56,11 @@ public class ProductController {
                                                              @RequestParam(required = false) String color,
                                                              @RequestParam(required = false) String category,
                                                              @RequestParam(required = false) String length,
+                                                             @RequestParam(required = false) String sortDirection,
+                                                             @RequestParam(required = false) Boolean onlyDiscounted,
                                                              @RequestParam int page, @RequestParam int pageSize)
     {
-        return ResponseEntity.ok(productService.filterProducts(lang,size,color,category,length,page,pageSize));
+        return ResponseEntity.ok(productService.filterProducts(lang,size,color,category,length,sortDirection,onlyDiscounted,page,pageSize));
     }
 
     @GetMapping("/search-product")

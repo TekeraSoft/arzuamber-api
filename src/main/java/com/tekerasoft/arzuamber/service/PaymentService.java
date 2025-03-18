@@ -8,7 +8,9 @@ import com.tekerasoft.arzuamber.dto.AddressDto;
 import com.tekerasoft.arzuamber.dto.BasketItemDto;
 import com.tekerasoft.arzuamber.dto.BuyerDto;
 import com.tekerasoft.arzuamber.dto.OrderDto;
+import com.tekerasoft.arzuamber.model.Order;
 import com.tekerasoft.arzuamber.model.OrderStatus;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -28,11 +30,13 @@ public class PaymentService {
     private final Options options;
     private final OrderService orderService;
     private final ProductService productService;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public PaymentService(Options options, OrderService orderService, ProductService productService) {
+    public PaymentService(Options options, OrderService orderService, ProductService productService, SimpMessagingTemplate messagingTemplate) {
         this.options = options;
         this.orderService = orderService;
         this.productService = productService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public ThreedsInitialize payment(com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest req) {
@@ -193,6 +197,7 @@ public class PaymentService {
         }
     }
 
+    @Transactional
     public ThreedsPayment completePayment(String paymentId, String conversationId) {
         try {
             CreateThreedsPaymentRequestV2 threedsRequest = new CreateThreedsPaymentRequestV2();
@@ -205,11 +210,12 @@ public class PaymentService {
 
             if(threedsPayment.getStatus().equals("success")) {
                OrderDto order = orderService.changeOrderStatusAndReturnOrder(paymentId); // set payment status paid
+                order.setStatus(OrderStatus.PAID);
                 for (BasketItemDto bd: order.getBasketItems()) {
                     productService.reduceStock(bd.getStockSizeId(), bd.getQuantity());
                 }
+                messagingTemplate.convertAndSend("/topic/orders", order);
             }
-
             return threedsPayment;
 
         } catch (RuntimeException e) {

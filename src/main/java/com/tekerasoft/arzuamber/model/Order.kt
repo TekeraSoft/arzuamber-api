@@ -21,7 +21,7 @@ data class Order @JvmOverloads constructor(
     @JoinColumn(name = "billing_address_id")
     val billingAddress: Address,
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     val basketItems: List<BasketItem>,
 
     val totalPrice: BigDecimal,

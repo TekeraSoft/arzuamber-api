@@ -17,6 +17,8 @@ import com.tekerasoft.arzuamber.utils.SlugGenerator;
 import com.tekerasoft.arzuamber.utils.StockCodeGenerator;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
@@ -265,7 +267,13 @@ public class ProductService {
         }
     }
 
-    public PagedModel<EntityModel<ProductDto>> filterProducts(String lang, String size, String color, String category, String length, int page, int pageSize) {
+    public PagedModel<EntityModel<ProductDto>> filterProducts(String lang,
+                                                              String size,
+                                                              String color,
+                                                              String category,
+                                                              String length,
+                                                              String sortDirection,
+                                                              Boolean onlyDiscounted ,int page, int pageSize) {
         // Parametrelerin null olup olmadığını kontrol et
         lang = (lang == null || lang.isEmpty()) ? null : lang;
         size = (size == null || size.isEmpty()) ? null : size;
@@ -273,9 +281,16 @@ public class ProductService {
         category = (category == null || category.isEmpty()) ? null : category;
         length = (length == null || length.isEmpty()) ? null : length;
 
+        Sort.Direction direction = Sort.Direction.ASC;
+        if ("desc".equalsIgnoreCase(sortDirection)) {
+            direction = Sort.Direction.DESC;
+        }
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(direction, "price"));
+
         // Sorguyu çalıştır ve sayfalanmış sonuçları döndür
         return pagedResourcesAssembler.toModel(
-                productRepository.findProductsByFilters(color, size, category, length, lang, PageRequest.of(page, pageSize))
+                productRepository.findProductsByFilters(color, size, category, length, lang, onlyDiscounted,pageable)
                         .map(ProductDto::toDto)
         );
     }

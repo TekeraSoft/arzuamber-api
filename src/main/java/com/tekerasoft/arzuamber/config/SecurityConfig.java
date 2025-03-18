@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/ws/**").permitAll()  // WebSocket izin ver
+                        .requestMatchers("/ws/**","/app/**").permitAll()  // WebSocket izin ver
                         .requestMatchers("/v1/api/product/**", "/v1/api/category/**",
                                 "/v1/api/order/**", "/v1/api/auth/**",
                                 "/v1/api/blog/**", "/v1/api/contact/**",
@@ -73,7 +73,6 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList("*")); // İzin verilen origin
-        //configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","PATCH")); // İzin verilen HTTP metodları
         configuration.setAllowedHeaders(Arrays.asList("*")); // İzin verilen başlıklar
         configuration.setAllowCredentials(true); // Kimlik doğrulama bilgilerini dahil et (örn. Cookie)

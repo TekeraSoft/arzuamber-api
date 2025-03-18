@@ -26,10 +26,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Query("UPDATE Product p SET p.isActive = :isActive WHERE p.id = :productId")
     void updateIsActive(@Param("productId") UUID productId, @Param("isActive") boolean isActive);
 
-    @Query("SELECT t FROM Product t WHERE t.newSeason = true AND t.lang = :lang AND t.isActive = true")
+    //@Query("SELECT t FROM Product t WHERE t.newSeason = true AND t.lang = :lang AND t.isActive = true")
     Page<Product> findByNewSeasonTrueAndLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(@Param("lang") String lang, Pageable pageable);
 
-    @Query("SELECT t FROM Product t WHERE t.populate = true AND t.lang = :lang AND t.isActive = true")
+    //@Query("SELECT t FROM Product t WHERE t.populate = true AND t.lang = :lang AND t.isActive = true")
     Page<Product> findByPopulateTrueAndLangIgnoreCaseAndIsActiveTrueOrderByCreatedAtDesc(@Param("lang") String lang, Pageable pageable);
 
     @Query("SELECT t FROM Product t WHERE t.price IS NOT NULL")
@@ -63,6 +63,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
         AND (:length IS NULL OR p.length = :length)
         AND (:lang IS NULL OR p.lang = :lang)
         AND (p.isActive = true)
+        AND (:onlyDiscounted = false OR (p.discountPrice IS NOT NULL AND p.discountPrice > 0))
 """)
     Page<Product> findProductsByFilters(
             @Param("color") String color,
@@ -70,6 +71,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             @Param("category") String category,
             @Param("length") String length,
             @Param("lang") String lang,
+            @Param("onlyDiscounted") boolean onlyDiscounted,
             Pageable pageable
     );
 

@@ -11,7 +11,7 @@ data class OrderDto(
     val billingAddress: AddressDto,
     val basketItems: List<BasketItemDto>,
     val totalPrice: BigDecimal,
-    val status: OrderStatus = OrderStatus.PENDING,
+    var status: OrderStatus,
     val createdAt: LocalDateTime,
     val paymentId: String? = null,
     val id: UUID?
