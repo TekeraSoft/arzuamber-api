@@ -30,7 +30,7 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 
     @Modifying
     @Transactional
-    @Query("SELECT o FROM Order o WHERE o.buyer.email = :email")
+    @Query("SELECT o FROM Order o WHERE o.buyer.email = :email ORDER BY o.createdAt DESC")
     List<Order> findUserOrdersByEmail(String email);
 
     Optional<Order> findByPaymentId(String paymentId);
