@@ -8,8 +8,10 @@ import com.tekerasoft.arzuamber.dto.AddressDto;
 import com.tekerasoft.arzuamber.dto.BasketItemDto;
 import com.tekerasoft.arzuamber.dto.BuyerDto;
 import com.tekerasoft.arzuamber.dto.OrderDto;
-import com.tekerasoft.arzuamber.model.Order;
+import com.tekerasoft.arzuamber.dto.request.CreatePayAtDoorRequest;
+import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.model.OrderStatus;
+import com.tekerasoft.arzuamber.model.PaymentType;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +22,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class PaymentService {
@@ -184,6 +185,7 @@ public class PaymentService {
                             )).toList(),
                             totalPrice,
                             OrderStatus.PENDING,
+                            PaymentType.CREDIT_CARD,
                             LocalDateTime.now(),
                             threedsInitialize.getPaymentId(),
                             null
@@ -199,6 +201,69 @@ public class PaymentService {
             throw new RuntimeException("Error creating payment request", e);
         }
     }
+
+//    public ApiResponse<?> payAtDoor(CreatePayAtDoorRequest req) {
+//
+//        List<BasketItemDto> basketItems = new ArrayList<>();
+//
+//        for (com.tekerasoft.arzuamber.dto.request.BasketItem bi : req.getBasketItems()) {
+//
+//            // Fiyatı quantity (adet) ile çarpıyoruz
+//            BigDecimal totalItemPrice = new BigDecimal(bi.getPrice()).multiply(new BigDecimal(bi.getQuantity()));
+//            basketI.setPrice(totalItemPrice);
+//        }
+//        BigDecimal totalPrice = basketItems.stream()
+//                .map(BasketItem::getPrice)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//        orderService.save(new OrderDto(
+//                new BuyerDto(
+//                        req.getBuyer().getName(),
+//                        req.getBuyer().getSurname(),
+//                        req.getBuyer().getGsmNumber(),
+//                        req.getBuyer().getEmail(),
+//                        req.getBuyer().getIp(),
+//                        req.getBuyer().getIdentityNumber(),
+//                        req.getBuyer().getLastLoginDate(),
+//                        req.getBuyer().getRegistrationDate(),
+//                        req.getBuyer().getRegistrationAddress()
+//                ),
+//                new AddressDto(
+//                        req.getShippingAddress().getContactName(),
+//                        req.getShippingAddress().getCity(),
+//                        req.getShippingAddress().getState(),
+//                        req.getShippingAddress().getCountry(),
+//                        req.getShippingAddress().getAddress(),
+//                        req.getShippingAddress().getStreet(),
+//                        req.getShippingAddress().getZipCode()
+//                ),
+//                new AddressDto(
+//                        req.getBillingAddress().getContactName(),
+//                        req.getBillingAddress().getCity(),
+//                        req.getBillingAddress().getState(),
+//                        req.getBillingAddress().getCountry(),
+//                        req.getBillingAddress().getAddress(),
+//                        req.getBillingAddress().getStreet(),
+//                        req.getBillingAddress().getZipCode()
+//                ),
+//                req.getBasketItems().stream().map(bi -> new BasketItemDto(
+//                        bi.getName(),
+//                        bi.getCategory1(),
+//                        bi.getCategory2(),
+//                        bi.getPrice(),
+//                        bi.getQuantity(),
+//                        bi.getSize(),
+//                        bi.getColor(),
+//                        bi.getStockSizeId(),
+//                        bi.getStockCode(),
+//                        bi.getImage()
+//                )).toList(),
+//                totalPrice,
+//                OrderStatus.PENDING,
+//                LocalDateTime.now(),
+//                threedsInitialize.getPaymentId(),
+//                null
+//        ));
+//    }
 
     @Transactional
     public ThreedsPayment completePayment(String paymentId, String conversationId) {

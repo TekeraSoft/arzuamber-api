@@ -26,10 +26,13 @@ data class Order @JvmOverloads constructor(
 
     val totalPrice: BigDecimal,
 
-    val paymentId: String? = null,
-
     @Enumerated(EnumType.STRING)
     val status: OrderStatus,
+
+    @Enumerated(EnumType.STRING)
+    val paymentType: PaymentType,
+
+    val paymentId: String? = null,
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
 

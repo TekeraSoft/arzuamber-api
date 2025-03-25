@@ -1,0 +1,1 @@
+ALTER TABLE orders ADD COLUMN payment_type VARCHAR(255);

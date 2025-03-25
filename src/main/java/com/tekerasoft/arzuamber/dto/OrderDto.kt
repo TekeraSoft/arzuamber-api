@@ -12,6 +12,7 @@ data class OrderDto(
     val basketItems: List<BasketItemDto>,
     val totalPrice: BigDecimal,
     var status: OrderStatus,
+    var paymentType: PaymentType,
     val createdAt: LocalDateTime,
     val paymentId: String? = null,
     val id: UUID?
@@ -29,6 +30,7 @@ data class OrderDto(
                     bi.quantity,bi.size,bi.color,bi.stockSizeId, bi.stockCode,bi.image) },
                 from.totalPrice,
                 from.status,
+                from.paymentType,
                 from.createdAt,
                 from.paymentId,
                 from.id
@@ -45,8 +47,9 @@ data class OrderDto(
                 from.basketItems.map { bi -> BasketItem(bi.name,bi.category1,bi.category2,bi.price,
                     bi.quantity,bi.size,bi.color,bi.stockSizeId, bi.stockCode, bi.image) },
                 from.totalPrice,
-                from.paymentId,
                 from.status,
+                from.paymentType,
+                from.paymentId,
             )
         }
     }
