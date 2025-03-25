@@ -6,10 +6,14 @@ import com.tekerasoft.arzuamber.dto.OrderDto;
 import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
 import com.tekerasoft.arzuamber.service.OrderService;
 import com.tekerasoft.arzuamber.service.PaymentService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,4 +72,5 @@ public class OrderController {
     public ResponseEntity<List<OrderDto>> getUserOrders(@RequestParam String email) {
         return ResponseEntity.ok(orderService.getOrderByMail(email));
     }
+
 }

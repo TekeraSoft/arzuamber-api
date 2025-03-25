@@ -52,14 +52,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/ws/**","/app/**").permitAll()  // WebSocket izin ver
+                .authorizeHttpRequests(authorize -> authorize // WebSocket izin ver
                         .requestMatchers("/v1/api/product/**", "/v1/api/category/**",
-                                "/v1/api/order/**", "/v1/api/auth/**",
+                                "/ws/**","/app/**",
+                                "/v1/api/order/**", "/v1/api/auth/**","/v1/api/user/**",
                                 "/v1/api/blog/**", "/v1/api/contact/**",
                                 "/v1/api/slider/**").permitAll()
                         .requestMatchers("/v1/api/admin/**").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers("/v1/api/user/**").hasAuthority(Role.USER.name())
+                        //.requestMatchers("/v1/api/user/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

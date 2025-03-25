@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sipariş Onayı</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+<div style="max-width: 800px; background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #cccccc; margin: auto;">
+
+    <div style="display: block; text-align: center">
+        <img src="https://res.cloudinary.com/dgoothqal/image/upload/v1742384766/Arzu_Amber_Yeni_Logolar_nfchtb.png" alt="https://arzuamber.com/images/logo/logo.svg" width="200">
+        <p style="color: #666; text-align: center">Siparişiniz başarıyla oluşturuldu. Aşağıda detaylarını görebilirsiniz.</p>
+    </div>
+
+    <h3 style="background: #007bff; color: #fff; padding: 10px; border-radius: 5px;">📌 Sipariş Bilgileri</h3>
+    <ul style="list-style: none; padding: 0;">
+        <li><strong>Sipariş Numarası:</strong> <span th:text="${orderNumber}"></span></li>
+        <li><strong>Tarih:</strong> <span th:text="${createdAt}"></span></li>
+    </ul>
+
+    <h3 style="background: #28a745; color: #fff; padding: 10px; border-radius: 5px;">📍 Kargo ve Adres Bilgileri</h3>
+    <p><strong>Adres:</strong> <span th:text="${shippingAddress}"></span></p>
+
+    <h3 style="background: #dc3545; color: #fff; padding: 10px; border-radius: 5px;">👤 Müşteri Bilgileri</h3>
+    <ul style="list-style: none; padding: 0;">
+        <li><strong>Ad:</strong> <span th:text="${name}"></span> <span th:text="${surname}"></span></li>
+        <li><strong>E-posta:</strong> <span th:text="${email}"></span></li>
+        <li><strong>Telefon:</strong> <span th:text="${phoneNumber}"></span></li>
+    </ul>
+
+    <h3 style="background: #ffc107; color: #333; padding: 10px; border-radius: 5px;">🛒 Siparişinizdeki Ürünler</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+        <tr style="background: #ddd;">
+            <th style="padding: 10px; border: 1px solid #ccc;">Ürün</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Ürün Kodu</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Adet</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Fiyat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${basketItems}">
+            <td style="padding: 10px; border: 1px solid #ccc;" th:text="${item.name}"></td>
+            <td style="padding: 10px; border: 1px solid #ccc;" th:text="${item.stockCode}"></td>
+            <td style="padding: 10px; border: 1px solid #ccc;" th:text="${item.quantity}"></td>
+            <td style="padding: 10px; border: 1px solid #ccc;" th:text="${item.price} + ' TL'"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <h2>Toplam</h2>
+        <h2 th:text="${totalPrice}"></h2>
+    </div>
+    <p style="margin-top: 20px; text-align: center; color: #888;">Teşekkür ederiz! 🚀 <a target="__blank" href="https://arzuamber.com">www.arzuamber.com</a></p>
+</div>
+</body>
+</html>

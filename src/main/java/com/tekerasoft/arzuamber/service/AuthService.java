@@ -108,6 +108,12 @@ public class AuthService {
         claims.put("userId", user.get().getId());
         claims.put("role", user.get().getAuthorities());
         claims.put("email", user.get().getEmail());
+        if(user.get().getPhoneNumber() != null) {
+            claims.put("phoneNumber", user.get().getPhoneNumber());
+        }
+        if(user.get().getAddress() != null) {
+            claims.put("address", user.get().getAddress());
+        }
         claims.put("nameSurname", user.get().getFirstName()+ " " + user.get().getLastName());
         return claims;
     }

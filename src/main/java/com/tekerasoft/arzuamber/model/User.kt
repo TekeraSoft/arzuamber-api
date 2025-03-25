@@ -12,13 +12,13 @@ data class User @JvmOverloads constructor(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val hashedPassword: String,
+    var hashedPassword: String,
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "user_id")])
     @Enumerated(EnumType.STRING)
     val roles: Set<Role>? = setOf(Role.USER),
-
+    var phoneNumber: String? = null,
     var address: String? = null,
 
     val createdAt: LocalDateTime? = LocalDateTime.now(),
