@@ -10,9 +10,11 @@ import com.tekerasoft.arzuamber.dto.BuyerDto;
 import com.tekerasoft.arzuamber.dto.OrderDto;
 import com.tekerasoft.arzuamber.dto.request.CreatePayAtDoorRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
+import com.tekerasoft.arzuamber.model.Order;
 import com.tekerasoft.arzuamber.model.OrderStatus;
 import com.tekerasoft.arzuamber.model.PaymentType;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PaymentService {
@@ -202,68 +205,79 @@ public class PaymentService {
         }
     }
 
-//    public ApiResponse<?> payAtDoor(CreatePayAtDoorRequest req) {
-//
-//        List<BasketItemDto> basketItems = new ArrayList<>();
-//
-//        for (com.tekerasoft.arzuamber.dto.request.BasketItem bi : req.getBasketItems()) {
-//
-//            // Fiyatı quantity (adet) ile çarpıyoruz
-//            BigDecimal totalItemPrice = new BigDecimal(bi.getPrice()).multiply(new BigDecimal(bi.getQuantity()));
-//            basketI.setPrice(totalItemPrice);
-//        }
-//        BigDecimal totalPrice = basketItems.stream()
-//                .map(BasketItem::getPrice)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//        orderService.save(new OrderDto(
-//                new BuyerDto(
-//                        req.getBuyer().getName(),
-//                        req.getBuyer().getSurname(),
-//                        req.getBuyer().getGsmNumber(),
-//                        req.getBuyer().getEmail(),
-//                        req.getBuyer().getIp(),
-//                        req.getBuyer().getIdentityNumber(),
-//                        req.getBuyer().getLastLoginDate(),
-//                        req.getBuyer().getRegistrationDate(),
-//                        req.getBuyer().getRegistrationAddress()
-//                ),
-//                new AddressDto(
-//                        req.getShippingAddress().getContactName(),
-//                        req.getShippingAddress().getCity(),
-//                        req.getShippingAddress().getState(),
-//                        req.getShippingAddress().getCountry(),
-//                        req.getShippingAddress().getAddress(),
-//                        req.getShippingAddress().getStreet(),
-//                        req.getShippingAddress().getZipCode()
-//                ),
-//                new AddressDto(
-//                        req.getBillingAddress().getContactName(),
-//                        req.getBillingAddress().getCity(),
-//                        req.getBillingAddress().getState(),
-//                        req.getBillingAddress().getCountry(),
-//                        req.getBillingAddress().getAddress(),
-//                        req.getBillingAddress().getStreet(),
-//                        req.getBillingAddress().getZipCode()
-//                ),
-//                req.getBasketItems().stream().map(bi -> new BasketItemDto(
-//                        bi.getName(),
-//                        bi.getCategory1(),
-//                        bi.getCategory2(),
-//                        bi.getPrice(),
-//                        bi.getQuantity(),
-//                        bi.getSize(),
-//                        bi.getColor(),
-//                        bi.getStockSizeId(),
-//                        bi.getStockCode(),
-//                        bi.getImage()
-//                )).toList(),
-//                totalPrice,
-//                OrderStatus.PENDING,
-//                LocalDateTime.now(),
-//                threedsInitialize.getPaymentId(),
-//                null
-//        ));
-//    }
+    public ApiResponse<?> payAtDoor(CreatePayAtDoorRequest req) throws MessagingException {
+
+        try {
+            List<BasketItemDto> basketItems = req.getBasketItems().stream().map(bi -> new BasketItemDto(
+                    bi.getName(),
+                    bi.getCategory1(),
+                    bi.getCategory2(),
+                    bi.getPrice(),
+                    bi.getQuantity(),
+                    bi.getSize(),
+                    bi.getColor(),
+                    bi.getStockSizeId(),
+                    bi.getStockCode(),
+                    bi.getImage()
+            )).toList();
+
+
+            BigDecimal totalPrice = basketItems.stream()
+                    .map(item -> new BigDecimal(item.getPrice()))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            OrderDto orderDto = new OrderDto(
+                    new BuyerDto(
+                            req.getBuyer().getName(),
+                            req.getBuyer().getSurname(),
+                            req.getBuyer().getGsmNumber(),
+                            req.getBuyer().getEmail(),
+                            req.getBuyer().getIp(),
+                            req.getBuyer().getIdentityNumber(),
+                            req.getBuyer().getLastLoginDate(),
+                            req.getBuyer().getRegistrationDate(),
+                            req.getBuyer().getRegistrationAddress()
+                    ),
+                    new AddressDto(
+                            req.getShippingAddress().getContactName(),
+                            req.getShippingAddress().getCity(),
+                            req.getShippingAddress().getState(),
+                            req.getShippingAddress().getCountry(),
+                            req.getShippingAddress().getAddress(),
+                            req.getShippingAddress().getStreet(),
+                            req.getShippingAddress().getZipCode()
+                    ),
+                    new AddressDto(
+                            req.getBillingAddress().getContactName(),
+                            req.getBillingAddress().getCity(),
+                            req.getBillingAddress().getState(),
+                            req.getBillingAddress().getCountry(),
+                            req.getBillingAddress().getAddress(),
+                            req.getBillingAddress().getStreet(),
+                            req.getBillingAddress().getZipCode()
+                    ),
+                    basketItems,
+                    totalPrice,
+                    OrderStatus.PAY_AT_DOOR,
+                    PaymentType.PAY_AT_DOOR,
+                    LocalDateTime.now(),
+                    UUID.randomUUID().toString().replaceAll("[^0-9]", "").substring(0, 8),
+                    null
+            );
+
+            for(BasketItemDto bi : basketItems) {
+                productService.reduceStock(bi.getStockSizeId(), bi.getQuantity());
+            }
+
+            Order order = orderService.save(orderDto);
+            messagingTemplate.convertAndSend("/topic/orders", order);
+            mailService.sendOrderConfirmationMail(orderDto);
+            return new ApiResponse<>("Siparişiniz oluşturuldu",null, true);
+
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     @Transactional
     public ThreedsPayment completePayment(String paymentId, String conversationId) {

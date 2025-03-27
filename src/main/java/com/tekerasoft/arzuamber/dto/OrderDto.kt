@@ -14,7 +14,7 @@ data class OrderDto(
     var status: OrderStatus,
     var paymentType: PaymentType,
     val createdAt: LocalDateTime,
-    val paymentId: String? = null,
+    val paymentId: String,
     val id: UUID?
 ) {
     companion object {

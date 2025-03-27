@@ -4,6 +4,7 @@ enum class OrderStatus {
     PENDING,
     AWAITING_PAYMENT,
     PAID,
+    PAY_AT_DOOR,
 
     PROCESSING,
     AWAITING_SHIPMENT,

@@ -32,7 +32,7 @@ data class Order @JvmOverloads constructor(
     @Enumerated(EnumType.STRING)
     val paymentType: PaymentType,
 
-    val paymentId: String? = null,
+    val paymentId: String,
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
 

@@ -3,7 +3,9 @@ package com.tekerasoft.arzuamber.controller;
 import com.iyzipay.model.ThreedsInitialize;
 import com.iyzipay.model.ThreedsPayment;
 import com.tekerasoft.arzuamber.dto.OrderDto;
+import com.tekerasoft.arzuamber.dto.request.CreatePayAtDoorRequest;
 import com.tekerasoft.arzuamber.dto.request.CreatePaymentRequest;
+import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.service.OrderService;
 import com.tekerasoft.arzuamber.service.PaymentService;
 import jakarta.mail.MessagingException;
@@ -71,6 +73,11 @@ public class OrderController {
     @GetMapping("/get-user-orders")
     public ResponseEntity<List<OrderDto>> getUserOrders(@RequestParam String email) {
         return ResponseEntity.ok(orderService.getOrderByMail(email));
+    }
+
+    @PostMapping("/create-pay-at-door-order")
+    public ResponseEntity<ApiResponse<?>> createPayAtDoorOrder(@RequestBody CreatePayAtDoorRequest req) throws MessagingException {
+        return ResponseEntity.ok(paymentService.payAtDoor(req));
     }
 
 }

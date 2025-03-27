@@ -29,9 +29,9 @@ public class OrderService {
         this.messagingTemplate = messagingTemplate;
     }
 
-    public void save(OrderDto order) {
+    public Order save(OrderDto order) {
         try {
-           orderRepository.save(OrderDto.toEntity(order));
+          return orderRepository.save(OrderDto.toEntity(order));
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
