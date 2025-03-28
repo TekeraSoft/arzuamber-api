@@ -14,7 +14,6 @@ import com.tekerasoft.arzuamber.model.Order;
 import com.tekerasoft.arzuamber.model.OrderStatus;
 import com.tekerasoft.arzuamber.model.PaymentType;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -205,6 +204,7 @@ public class PaymentService {
         }
     }
 
+    @Transactional
     public ApiResponse<?> payAtDoor(CreatePayAtDoorRequest req) throws MessagingException {
 
         try {
