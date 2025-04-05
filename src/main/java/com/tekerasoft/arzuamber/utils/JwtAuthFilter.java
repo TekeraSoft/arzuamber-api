@@ -48,6 +48,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     }
                 }
             } catch (ExpiredJwtException e) {
+
+//                Cookie expiredCookie = new Cookie("next-auth.session-token", null);
+//                expiredCookie.setPath("/");
+//                expiredCookie.setHttpOnly(true);
+//                expiredCookie.setMaxAge(0); // siler
+//                response.addCookie(expiredCookie);
+//
+//                // __Secure-next-auth.session-token varsa onu da sil
+//                Cookie secureExpiredCookie = new Cookie("__Secure-next-auth.session-token", null);
+//                secureExpiredCookie.setPath("/");
+//                secureExpiredCookie.setHttpOnly(true);
+//                secureExpiredCookie.setSecure(true);
+//                secureExpiredCookie.setMaxAge(0);
+//                response.addCookie(secureExpiredCookie);
+
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Token expired");
                 response.getWriter().flush();

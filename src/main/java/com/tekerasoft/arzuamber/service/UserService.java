@@ -1,16 +1,27 @@
 package com.tekerasoft.arzuamber.service;
 
+import com.tekerasoft.arzuamber.dto.ProductDto;
+import com.tekerasoft.arzuamber.dto.UserAdminDto;
 import com.tekerasoft.arzuamber.dto.request.EditUserRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
+import com.tekerasoft.arzuamber.model.Role;
 import com.tekerasoft.arzuamber.model.User;
 import com.tekerasoft.arzuamber.repository.UserRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
@@ -21,11 +32,13 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final PagedResourcesAssembler<UserAdminDto> pagedResourcesAssembler;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, PagedResourcesAssembler<UserAdminDto> pagedResourcesAssembler) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @Override
@@ -114,5 +127,24 @@ public class UserService implements UserDetailsService {
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public PagedModel<EntityModel<UserAdminDto>> getUsers(int page, int size) {
+        return pagedResourcesAssembler.toModel(userRepository.
+                findAll(PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt")))
+                .map(UserAdminDto::toDto));
+    }
+
+    public ApiResponse<?> changeUserRole(String id, Role role) {
+        try {
+            User user = userRepository.findById(UUID.fromString(id)).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+            Objects.requireNonNull(user.getRoles()).clear();
+            user.getRoles().add(role);
+            userRepository.save(user);
+            return new ApiResponse<>("Role Changed",null,true);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 }

@@ -17,14 +17,14 @@ data class User @JvmOverloads constructor(
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "user_id")])
     @Enumerated(EnumType.STRING)
-    val roles: Set<Role>? = setOf(Role.USER),
+    var roles: MutableSet<Role>? = mutableSetOf(Role.USER),
     var phoneNumber: String? = null,
     var address: String? = null,
 
     val createdAt: LocalDateTime? = LocalDateTime.now(),
     val updatedAt: LocalDateTime? = LocalDateTime.now(),
     val birthDate: LocalDate? = null,
-    val lastLogin: LocalDateTime? = LocalDateTime.now(),
+    var lastLogin: LocalDateTime? = LocalDateTime.now(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

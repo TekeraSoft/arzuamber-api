@@ -37,8 +37,6 @@ public class AdminController {
         this.sliderImageService = sliderImageService;
     }
 
-    //public PagedModel<EntityModel<OrderDto>> getAllOrders(Payload)
-
     @PostMapping("/create-product")
     public ResponseEntity<ApiResponse<?>> createProduct(@RequestParam String lang,
                                                         @RequestPart("data") CreateProductRequest createProductRequest,
@@ -106,11 +104,6 @@ public class AdminController {
     @GetMapping("/get-all-category")
     public ResponseEntity<List<CategoryDto>> getAllCategory(@RequestParam String lang) {
         return ResponseEntity.ok(categoryService.getAllCategories(lang));
-    }
-
-    @PutMapping("update-price-by-percentage")
-    public ResponseEntity<ApiResponse<?>> updatePriceByPercentage(@RequestBody PriceUpdatePercentageRequest percentageRequest) {
-        return ResponseEntity.ok(productService.updateAllToursPrice(percentageRequest.getPercentage()));
     }
 
     @PostMapping("/create-color")

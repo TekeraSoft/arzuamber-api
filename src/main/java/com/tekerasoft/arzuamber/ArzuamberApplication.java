@@ -36,7 +36,7 @@ public class ArzuamberApplication implements CommandLineRunner {
                     "AMBER",
                     "arzuambermoda@gmail.com",
                     passwordEncoder.encode("479408Aa"),
-                    setOf(Role.ADMIN)
+                    setOf(Role.SUPER_ADMIN)
             ));
         }
     }

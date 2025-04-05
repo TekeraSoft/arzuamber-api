@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,8 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password())
             );
             if (auth.isAuthenticated()) {
+                user.get().setLastLogin(LocalDateTime.now());
+                userRepository.save(user.get());
                 return new JwtResponse(
                         jwtService.generateToken(addClaims(loginRequest.email()), loginRequest.email()),
                         jwtService.generateRefreshToken(addClaims(loginRequest.email()), loginRequest.email())

@@ -127,14 +127,12 @@ public class PaymentService {
                 basketItems.add(shippingItem);
             }
 
-            // ProductId ve quantity bilgisi geliyor ürünün stoğunu renk ve bedene göre veritabanından düşecek
-
-// Tüm ürünlerin toplam fiyatını hesapla
+            // Tüm ürünlerin toplam fiyatını hesapla
             BigDecimal totalPrice = basketItems.stream()
                     .map(BasketItem::getPrice)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-// Toplam fiyatı request içine ekleyelim
+            // Toplam fiyatı request içine ekleyelim
             request.setPrice(totalPrice);
             request.setPaidPrice(totalPrice);
             request.setBasketItems(basketItems);
@@ -225,6 +223,10 @@ public class PaymentService {
             BigDecimal totalPrice = basketItems.stream()
                     .map(item -> new BigDecimal(item.getPrice()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            if(req.getShippingPrice().compareTo(BigDecimal.ZERO) > 0) {
+                totalPrice = totalPrice.add(req.getShippingPrice());
+            }
 
             OrderDto orderDto = new OrderDto(
                     new BuyerDto(
