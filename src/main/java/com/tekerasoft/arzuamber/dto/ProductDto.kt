@@ -21,6 +21,8 @@ data class ProductDto @JvmOverloads constructor(
     val purchasePrice: BigDecimal?,
     val discountPrice: BigDecimal? = BigDecimal.ZERO,
     val totalStock: Int? = 0,
+    val comments: MutableList<CommentDto>?,
+    val rates: MutableList<RateDto>?
 ) {
     companion object {
         @JvmStatic
@@ -40,12 +42,19 @@ data class ProductDto @JvmOverloads constructor(
                 from.isActive,
                 from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.stockSize.map { ss -> SizeStockDto(ss.id,ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) },
                 from.purchasePrice,
-                from.discountPrice
+                from.discountPrice,
+                from.totalStock,
+                from.comments?.filter { it.isActive == true }
+                ?.sortedByDescending { it.createdAt }
+                ?.map { c -> CommentDto(c.id,c.content?.map { con -> ContentDto(con.userName,con.message,con.createdAt) }?.toMutableList(),
+                    c.rate?.let { r -> RateDto(r.id,r.userName,r.userId,r.rate) },c.images,c.isActive) }
+                ?.toMutableList(),
+                from.rates?.map { r -> RateDto(r.id,r.userName,r.userId,r.rate) }?.toMutableList(),
             )
         }
 
         @JvmStatic
-        fun toDtoAdmin(from: Product): ProductDto {
+        fun toAdminDto(from: Product): ProductDto {
             return ProductDto(
                 from.id,
                 from.name,
@@ -59,10 +68,15 @@ data class ProductDto @JvmOverloads constructor(
                 from.lang,
                 from.length,
                 from.isActive,
-                from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.stockSize.map { ss-> SizeStockDto(ss.id,ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) },
+                from.colorSize.map { cs -> ColorSizeDto(cs.color,cs.stockSize.map { ss -> SizeStockDto(ss.id,ss.size,ss.stock) }.toSet(),cs.stockCode,cs.images) },
                 from.purchasePrice,
                 from.discountPrice,
-                from.totalStock
+                from.totalStock,
+                from.comments
+                    ?.sortedByDescending { it.createdAt }
+                    ?.map { c -> CommentDto(c.id,c.content?.map { con -> ContentDto(con.userName,con.message,con.createdAt) }?.toMutableList(),c.rate?.let { r -> RateDto(r.id,r.userName,r.userId,r.rate) },c.images,c.isActive) }
+                    ?.toMutableList(),
+                from.rates?.sortedByDescending { it.createdAt }?.map { r -> RateDto(r.id,r.userName,r.userId,r.rate) }?.toMutableList(),
             )
         }
     }

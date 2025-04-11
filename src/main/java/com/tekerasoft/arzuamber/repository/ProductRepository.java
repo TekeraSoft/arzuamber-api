@@ -81,4 +81,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             "(LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
             "OR LOWER(cs.stockCode) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
     List<Product> searchByNameOrStockCode(@Param("searchTerm") String searchTerm);
+
+    @Query("SELECT p FROM Product p " +
+            "JOIN p.colorSize cs " +
+            "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(cs.stockCode) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<Product> searchAdminByNameOrStockCode(@Param("searchTerm") String searchTerm);
 }

@@ -24,10 +24,13 @@ public class AdminController {
     private final BlogService blogService;
     private final ContactService contactService;
     private final SliderImageService sliderImageService;
+    private final CommentService commentService;
+    private final NotificationService notificationService;
 
     public AdminController(ProductService productService, CategoryService categoryService, ColorService colorService,
                            OrderService orderService, BlogService blogService, ContactService contactService,
-                           SliderImageService sliderImageService) {
+                           SliderImageService sliderImageService, CommentService commentService,
+                           NotificationService notificationService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.colorService = colorService;
@@ -35,6 +38,8 @@ public class AdminController {
         this.blogService = blogService;
         this.contactService = contactService;
         this.sliderImageService = sliderImageService;
+        this.commentService = commentService;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/create-product")
@@ -67,7 +72,12 @@ public class AdminController {
     public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getAllProduct(@RequestParam String lang,
                                                                              @RequestParam int page,
                                                                              @RequestParam int size) {
-        return ResponseEntity.ok(productService.getAllProducts(lang, page, size));
+        return ResponseEntity.ok(productService.getAllAdminProducts(lang, page, size));
+    }
+
+    @GetMapping("/search-product")
+    public ResponseEntity<List<ProductDto>> searchProduct(@RequestParam String searchTerm) {
+        return ResponseEntity.ok(productService.searchAdminByNameOrStockCode(searchTerm));
     }
 
     @GetMapping("/get-product")
@@ -161,5 +171,30 @@ public class AdminController {
     @DeleteMapping("/delete-slider")
     public ResponseEntity<ApiResponse<?>> deleteSlider(@RequestParam String id) {
         return ResponseEntity.ok(sliderImageService.deleteSliderImage(id));
+    }
+
+    @PatchMapping("/reply-comment")
+    public ResponseEntity<ApiResponse<?>> replyComment(@RequestBody ReplyRequest req) {
+        return ResponseEntity.ok(commentService.replyComment(req));
+    }
+
+    @DeleteMapping("/delete-comment")
+    public ResponseEntity<ApiResponse<?>> deleteComment(@RequestParam String commentId) {
+        return ResponseEntity.ok(commentService.deleteComment(commentId));
+    }
+
+    @PatchMapping("/change-comment-status")
+    public ResponseEntity<ApiResponse<?>> changeCommentStatus(@RequestParam String commentId, @RequestParam boolean status) {
+        return ResponseEntity.ok(commentService.changeCommentStatus(commentId, status));
+    }
+
+    @GetMapping("/get-notifications")
+    public ResponseEntity<PagedModel<EntityModel<Notification>>> getNotifications(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(notificationService.getAllNotifications(page, size));
+    }
+
+    @PatchMapping("/deactivate-notifications")
+    public void deactivateNotifications() {
+        notificationService.deactivateAllNotifications();
     }
 }

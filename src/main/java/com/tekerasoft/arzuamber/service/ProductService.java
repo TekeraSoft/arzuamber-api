@@ -4,14 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tekerasoft.arzuamber.dto.ProductDto;
+import com.tekerasoft.arzuamber.dto.request.AddToCartRequest;
 import com.tekerasoft.arzuamber.dto.request.CreateProductRequest;
 import com.tekerasoft.arzuamber.dto.request.UpdateProductRequest;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.exception.ProductException;
 import com.tekerasoft.arzuamber.exception.ProductNotFoundException;
-import com.tekerasoft.arzuamber.model.ColorSize;
-import com.tekerasoft.arzuamber.model.Product;
-import com.tekerasoft.arzuamber.model.StockSize;
+import com.tekerasoft.arzuamber.model.*;
 import com.tekerasoft.arzuamber.repository.ProductRepository;
 import com.tekerasoft.arzuamber.utils.SlugGenerator;
 import com.tekerasoft.arzuamber.utils.StockCodeGenerator;
@@ -22,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,12 +36,17 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final FileService fileService;
+    private final NotificationService notificationService;
+    private final SimpMessagingTemplate messagingTemplate;
     private final PagedResourcesAssembler<ProductDto> pagedResourcesAssembler;
 
     public ProductService(ProductRepository productRepository, FileService fileService,
+                          NotificationService notificationService, SimpMessagingTemplate messagingTemplate,
                           PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
         this.productRepository = productRepository;
         this.fileService = fileService;
+        this.notificationService = notificationService;
+        this.messagingTemplate = messagingTemplate;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
@@ -73,6 +78,8 @@ public class ProductService {
                     req.getLength(),
                     new ArrayList<>(),  // Başlangıçta boş liste
                     0,  // Toplam stok 0 olarak başlatılacak, aşağıda hesaplanacak
+                    new ArrayList<>(),
+                    new ArrayList<>(),
                     req.getPurchasePrice()
             ));
 
@@ -132,6 +139,12 @@ public class ProductService {
 
         return pagedResourcesAssembler.toModel(productRepository.findByLangIgnoreCaseOrderByCreatedAtDesc(lang,PageRequest.of(page,size))
                 .map(ProductDto::toDto));
+    }
+
+    public PagedModel<EntityModel<ProductDto>> getAllAdminProducts(String lang, int page, int size) {
+
+        return pagedResourcesAssembler.toModel(productRepository.findByLangIgnoreCaseOrderByCreatedAtDesc(lang,PageRequest.of(page,size))
+                .map(ProductDto::toAdminDto));
     }
 
     public PagedModel<EntityModel<ProductDto>> getAllProductsByActive(String lang, int page, int size) {
@@ -249,6 +262,8 @@ public class ProductService {
                             .flatMap(cs -> cs.getStockSize().stream())
                             .mapToInt(StockSize::getStock)
                             .sum(),
+                    product.getComments(),
+                    product.getRates(),
                     upReq.getPurchasePrice(),
                     upReq.getDiscountPrice(),
                     LocalDateTime.now(),
@@ -350,6 +365,25 @@ public class ProductService {
         return productRepository.searchByNameOrStockCode(searchTerm)
                 .stream()
                 .map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public void addToCart(AddToCartRequest req){
+            Notification notification = notificationService.saveNotification(new Notification(
+                    NotificationType.ADD_TO_CART,
+                    req.getUserName()+" "+"add to cart"+" "+req.getProductName()+" - "+" - "+req.getStockCode()+" - "+req.getCount(),
+                    req.getProductName()+" - "+" - "+req.getStockCode()+" - "+req.getCount(),
+                    LocalDateTime.now(),
+                    true,
+                    null
+            ));
+            messagingTemplate.convertAndSend("/topic/visitors",notification);
+    }
+
+    public List<ProductDto> searchAdminByNameOrStockCode(String searchTerm) {
+        return productRepository.searchAdminByNameOrStockCode(searchTerm)
+                .stream()
+                .map(ProductDto::toAdminDto)
                 .collect(Collectors.toList());
     }
 

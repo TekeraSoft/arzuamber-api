@@ -1,6 +1,7 @@
 package com.tekerasoft.arzuamber.controller;
 
 import com.tekerasoft.arzuamber.dto.ProductDto;
+import com.tekerasoft.arzuamber.dto.request.AddToCartRequest;
 import com.tekerasoft.arzuamber.model.Color;
 import com.tekerasoft.arzuamber.service.ColorService;
 import com.tekerasoft.arzuamber.service.ProductService;
@@ -8,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -71,6 +69,11 @@ public class ProductController {
     @GetMapping("/get-all-colors")
     public ResponseEntity<List<Color>> getAllColors(@RequestParam String lang) {
         return ResponseEntity.ok(colorService.getAllColors(lang));
+    }
+
+    @PostMapping("/add-to-cart")
+    public void addToCart(@RequestBody AddToCartRequest req) {
+        productService.addToCart(req);
     }
 
 }

@@ -21,6 +21,9 @@ data class User @JvmOverloads constructor(
     var phoneNumber: String? = null,
     var address: String? = null,
 
+    @ElementCollection
+    var favProducts: List<String>? = null,
+
     val createdAt: LocalDateTime? = LocalDateTime.now(),
     val updatedAt: LocalDateTime? = LocalDateTime.now(),
     val birthDate: LocalDate? = null,
