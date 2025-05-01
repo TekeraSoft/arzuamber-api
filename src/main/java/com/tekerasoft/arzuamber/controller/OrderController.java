@@ -58,9 +58,9 @@ public class OrderController {
 
             // Ödeme başarılıysa frontend’e yönlendir
             if ("success".equalsIgnoreCase(payment.getStatus())) {
-                response.sendRedirect(originUrl+"/tr/payment-success");
+                response.sendRedirect(originUrl + "/tr/payment-success");
             } else {
-                response.sendRedirect(originUrl+"/tr/payment-failure");
+                response.sendRedirect(originUrl + "/tr/payment-failure");
             }
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());

@@ -56,7 +56,7 @@ public class SecurityConfig {
                         .requestMatchers("/v1/api/product/**", "/v1/api/category/**",
                                 "/ws/**","/app/**",
                                 "/v1/api/order/**", "/v1/api/auth/**","/v1/api/user/**",
-                                "/v1/api/blog/**", "/v1/api/contact/**","/v1/api/comment/**",
+                                "/v1/api/blog/**", "/v1/api/contact/**","/v1/api/comment/**","/v1/api/admin/**",
                                 "/v1/api/slider/**").permitAll()
                         .requestMatchers("/v1/api/admin/**").hasAnyAuthority(Role.ADMIN.name(),Role.SUPER_ADMIN.name())
                         .requestMatchers("/v1/api/super-admin/**").hasAnyAuthority(Role.SUPER_ADMIN.name())

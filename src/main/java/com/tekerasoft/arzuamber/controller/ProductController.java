@@ -39,26 +39,25 @@ public class ProductController {
 
     @GetMapping("/get-all-populate")
     public ResponseEntity<List<ProductDto>> getAllPopulateProduct(@RequestParam String lang, @RequestParam int page,
-                                                                   @RequestParam int size) {
+                                                                  @RequestParam int size) {
         return ResponseEntity.ok(productService.getAllPopulateProduct(lang, page, size));
     }
 
     @GetMapping("/get-product")
     public ResponseEntity<ProductDto> getProduct(@RequestParam String lang, @RequestParam String slug) {
-        return ResponseEntity.ok(productService.getProductBySlug(lang,slug));
+        return ResponseEntity.ok(productService.getProductBySlug(lang, slug));
     }
 
     @GetMapping("/filter-product")
     public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getProductFilter(@RequestParam(required = false) String lang,
-                                                             @RequestParam(required = false) String size,
-                                                             @RequestParam(required = false) String color,
-                                                             @RequestParam(required = false) String category,
-                                                             @RequestParam(required = false) String length,
-                                                             @RequestParam(required = false) String sortDirection,
-                                                             @RequestParam(required = false) Boolean onlyDiscounted,
-                                                             @RequestParam int page, @RequestParam int pageSize)
-    {
-        return ResponseEntity.ok(productService.filterProducts(lang,size,color,category,length,sortDirection,onlyDiscounted,page,pageSize));
+                                                                                @RequestParam(required = false) String size,
+                                                                                @RequestParam(required = false) String color,
+                                                                                @RequestParam(required = false) String category,
+                                                                                @RequestParam(required = false) String length,
+                                                                                @RequestParam(required = false) String sortDirection,
+                                                                                @RequestParam(required = false) Boolean onlyDiscounted,
+                                                                                @RequestParam int page, @RequestParam int pageSize) {
+        return ResponseEntity.ok(productService.filterProducts(lang, size, color, category, length, sortDirection, onlyDiscounted, page, pageSize));
     }
 
     @GetMapping("/search-product")
