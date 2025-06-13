@@ -31,7 +31,7 @@
         <jwt.version>0.11.5</jwt.version>
         <minio.version>8.5.11</minio.version>
         <kotlin.version>1.9.23</kotlin.version>
-        <flyway.version>10.20.1</flyway.version>
+<!--        <flyway.version>10.20.1</flyway.version>-->
     </properties>
     <dependencies>
         <dependency>

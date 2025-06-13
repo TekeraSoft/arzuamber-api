@@ -1,1 +1,0 @@
-ALTER TABLE basket_item ADD COLUMN image VARCHAR(255);

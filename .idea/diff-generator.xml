@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DiffGenerationConfig">
+    <option name="snapshotDb" value="false" />
+    <option name="snapshotModelValue" value="arzuamber:entityManagerFactory" />
     <option name="sourceDbValue" value="f6716f94-b66c-4861-941b-ea984bcc9e60__arzuamber-db_public" />
-    <option name="sourceDiffType" value="DB" />
-    <option name="sourceModelValue" value="Default" />
+    <option name="sourceModelValue" value="arzuamber:entityManagerFactory" />
     <option name="targetDbValue" value="f6716f94-b66c-4861-941b-ea984bcc9e60" />
   </component>
 </project>
