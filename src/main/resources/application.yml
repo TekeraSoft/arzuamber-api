@@ -2,7 +2,6 @@ spring:
   application:
     name: arzuamber
 
-
 #  origin:
 #    url: https://arzuamber.com
   origin:
