@@ -72,14 +72,21 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // İzin verilen origin
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","PATCH")); // İzin verilen HTTP metodları
-        configuration.setAllowedHeaders(Arrays.asList("*")); // İzin verilen başlıklar
-        configuration.setAllowCredentials(true); // Kimlik doğrulama bilgilerini dahil et (örn. Cookie)
+
+        // Sadece güvenilir frontend origin'lerini burada tanımla
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",             // local geliştirme
+                "http://192.168.1.20:3000",          // local ağdaki test
+                "https://frontend.arzuamber.com"     // gerçek frontend domain (deploy sonrası)
+        ));
+
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(List.of("*")); // İzin verilen header'lar
+        configuration.setAllowCredentials(true); // Token, cookie gibi kimlik doğrulama verilerini taşıyabilmek için
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/ws/**", configuration);
-        source.registerCorsConfiguration("/**", configuration); // Tüm endpoint'ler için CORS konfigürasyonu
+        source.registerCorsConfiguration("/**", configuration); // Tüm endpointler için uygula
+
         return source;
     }
 
