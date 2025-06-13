@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00023214-16a7-4cbe-a186-561c4bfb392a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/pg_catalog.0S1ZNQ.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -10,8 +10,8 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://arzuamber-db:5432/arzuamber-db
-    url: jdbc:postgresql://localhost:5435/arzuamber-db
+    url: jdbc:postgresql://arzuamber-db:5432/arzuamber-db
+#    url: jdbc:postgresql://localhost:5435/arzuamber-db
     username: arzuamber_user
     password: arzuamber_pass
   jpa:
@@ -24,8 +24,8 @@ spring:
     locations: classpath:db/migration
 
   minio:
-#    url: http://arzuamber-blob-storage:9000
-    url: http://localhost:9000
+    url: http://arzuamber-blob-storage:9000
+#    url: http://localhost:9000
     user: arzuamber_user
     password: arzuamber_pass
     bucket-name: arzuamber-bucket
