@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="00023214-16a7-4cbe-a186-561c4bfb392a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/ArzuamberApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/ArzuamberApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -206,7 +205,7 @@
       <workItem from="1748876905078" duration="15000" />
       <workItem from="1749550487561" duration="789000" />
       <workItem from="1749813930869" duration="3688000" />
-      <workItem from="1749817649437" duration="5756000" />
+      <workItem from="1749817649437" duration="6627000" />
     </task>
     <servers />
   </component>

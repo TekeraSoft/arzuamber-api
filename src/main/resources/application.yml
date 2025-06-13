@@ -11,7 +11,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://arzuamber-db:5432/arzuamber-db
-    url: jdbc:postgresql://localhost:5435/arzuamber-db
+    url: jdbc:postgresql://localhost:5432/arzuamber-db
     username: arzuamber_user
     password: arzuamber_pass
   jpa:
