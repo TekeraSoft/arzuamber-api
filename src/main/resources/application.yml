@@ -23,7 +23,7 @@ spring:
     locations: classpath:db/migration
 
   minio:
-    url: http://arzuamber-blob-storage:9000
+    url: http://minio:9000
 #    url: http://localhost:9000
     user: arzuamber_user
     password: arzuamber_pass
