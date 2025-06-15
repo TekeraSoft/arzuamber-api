@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00023214-16a7-4cbe-a186-561c4bfb392a" name="Changes" comment="">
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fbbdf81f-d1f6-4daa-929d-9d82bd7dcc6a/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" />
->>>>>>> dd8ead0 (fcd-1)
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df302346-622a-473e-a69a-45fb672c36d9/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/df302346-622a-473e-a69a-45fb672c36d9/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
