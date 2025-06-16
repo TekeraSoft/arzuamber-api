@@ -11,7 +11,7 @@
       <schema-mapping>
         <introspection-scope>
           <node kind="database" qname="arzuamber-db">
-            <node kind="schema" negative="1" />
+            <node kind="schema" qname="public" />
           </node>
         </introspection-scope>
       </schema-mapping>
