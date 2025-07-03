@@ -77,7 +77,8 @@ public class SecurityConfig {
         // Sadece güvenilir frontend origin'lerini burada tanımla
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",
-                "https://arzuamber.com"     // gerçek frontend domain (deploy sonrası)
+                "https://arzuamber.com",     // gerçek frontend domain (deploy sonrası)
+                "https://www.arzuamber.com"
         ));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
