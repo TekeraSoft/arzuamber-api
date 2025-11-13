@@ -135,6 +135,11 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
+    public Product getProductById(String id)  {
+        return productRepository.findById(UUID.fromString(id))
+                .orElseThrow();
+    }
+
     public PagedModel<EntityModel<ProductDto>> getAllProducts(String lang, int page, int size) {
 
         return pagedResourcesAssembler.toModel(productRepository.findByLangIgnoreCaseOrderByCreatedAtDesc(lang,PageRequest.of(page,size))

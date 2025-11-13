@@ -18,7 +18,7 @@ services:
   # MinIO (Blob Storage)
   minio:
     image: minio/minio:latest
-    container_name: minio
+    container_name: minio-arzuamber
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -32,7 +32,7 @@ services:
     networks:
       - my-network
 
-  mc-once:
+  mc-once-arzuamber:
     image: minio/mc
     depends_on:
       - minio

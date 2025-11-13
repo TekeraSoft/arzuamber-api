@@ -51,18 +51,18 @@ spring:
   order-mail: info@arzuamber.com
 
   mail:
-    host: de1.fcomet.com
-    port: 465
+    host: mail.tekera21.com
+    port: 587
     username: info@arzuamber.com
-    password: Wweeqq11@
+    password: 9cVFQpsngscenUk
     properties:
       mail:
         smtp:
           auth: true
           starttls:
-            enable: false
-          ssl:
             enable: true
+          ssl:
+            enable: false
     default-encoding: UTF-8
 
   servlet:
@@ -72,3 +72,4 @@ spring:
 
 server:
   address: 0.0.0.0
+  port: 8084

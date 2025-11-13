@@ -30,11 +30,7 @@ public class OrderService {
     }
 
     public Order save(OrderDto order) {
-        try {
           return orderRepository.save(OrderDto.toEntity(order));
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 
     public PagedModel<EntityModel<OrderDto>> getAllOrders(int page, int size) {

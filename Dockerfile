@@ -1,20 +1,30 @@
-FROM openjdk:17 AS build
+# 1. stage: build
+FROM eclipse-temurin:17-jdk AS build
 
-# Maven'ı ve proje dosyalarını kopyala
+WORKDIR /build
+
+# Maven wrapper ve pom'u kopyala
 COPY pom.xml mvnw ./
-# Windows satır sonlarını kaldır
-RUN sed -i 's/\r//' mvnw && chmod +x mvnw
-
 COPY .mvn .mvn
 
-# Bağımlılıkları çöz
+# Windows satır sonlarını temizle ve mvnw'ye execute izni ver
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
+
+# Önce bağımlılıkları indir
 RUN ./mvnw dependency:resolve
 
-# Kaynak kodu kopyala ve paket oluştur (testleri atla)
+# Kaynak kodlarını kopyala
 COPY src src
+
+# Jar'ı build et (testleri atla)
 RUN ./mvnw package -DskipTests
 
-FROM openjdk:17
+# 2. stage: run
+FROM eclipse-temurin:17-jre
+
 WORKDIR /arzuamber
-COPY --from=build target/*.jar arzuamber.jar
+
+# build stage'den jar'ı al
+COPY --from=build /build/target/*.jar arzuamber.jar
+
 ENTRYPOINT ["java", "-jar", "arzuamber.jar"]

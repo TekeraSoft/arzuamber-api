@@ -5,6 +5,9 @@ import com.tekerasoft.arzuamber.dto.request.*;
 import com.tekerasoft.arzuamber.dto.response.ApiResponse;
 import com.tekerasoft.arzuamber.model.*;
 import com.tekerasoft.arzuamber.service.*;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
@@ -26,11 +29,13 @@ public class AdminController {
     private final SliderImageService sliderImageService;
     private final CommentService commentService;
     private final NotificationService notificationService;
+    private final FashionCollectionService fashionCollectionService;
 
     public AdminController(ProductService productService, CategoryService categoryService, ColorService colorService,
                            OrderService orderService, BlogService blogService, ContactService contactService,
                            SliderImageService sliderImageService, CommentService commentService,
-                           NotificationService notificationService) {
+                           NotificationService notificationService,
+                           FashionCollectionService fashionCollectionService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.colorService = colorService;
@@ -40,6 +45,7 @@ public class AdminController {
         this.sliderImageService = sliderImageService;
         this.commentService = commentService;
         this.notificationService = notificationService;
+        this.fashionCollectionService = fashionCollectionService;
     }
 
     @PostMapping("/create-product")
@@ -91,12 +97,14 @@ public class AdminController {
     }
 
     @GetMapping("/get-all-order")
-    public ResponseEntity<PagedModel<EntityModel<OrderDto>>> getAllOrder(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PagedModel<EntityModel<OrderDto>>> getAllOrder(@RequestParam int page,
+                                                                         @RequestParam int size) {
         return ResponseEntity.ok(orderService.getAllOrders(page,size));
     }
 
     @PatchMapping("/change-order-status")
-    public ResponseEntity<ApiResponse<?>> changeOrderStatus(@RequestParam String orderId, @RequestParam OrderStatus status) {
+    public ResponseEntity<ApiResponse<?>> changeOrderStatus(@RequestParam String orderId,
+                                                            @RequestParam OrderStatus status) {
         return ResponseEntity.ok(orderService.changeOrderStatusWithAdmin(orderId, status));
     }
 
@@ -139,7 +147,9 @@ public class AdminController {
     }
 
     @GetMapping("/get-all-blog")
-    public ResponseEntity<PagedModel<EntityModel<BlogDto>>> getAllBlogs(@RequestParam String lang, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PagedModel<EntityModel<BlogDto>>> getAllBlogs(@RequestParam String lang,
+                                                                        @RequestParam int page,
+                                                                        @RequestParam int size) {
         return ResponseEntity.ok(blogService.getAllBlogs(lang, page, size));
     }
 
@@ -149,7 +159,8 @@ public class AdminController {
     }
 
     @GetMapping("/get-all-contact")
-    public ResponseEntity<PagedModel<EntityModel<ContactDto>>> getAllContact(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PagedModel<EntityModel<ContactDto>>> getAllContact(@RequestParam int page,
+                                                                             @RequestParam int size) {
         return ResponseEntity.ok(contactService.getAllContacts(page, size));
     }
 
@@ -184,17 +195,44 @@ public class AdminController {
     }
 
     @PatchMapping("/change-comment-status")
-    public ResponseEntity<ApiResponse<?>> changeCommentStatus(@RequestParam String commentId, @RequestParam boolean status) {
+    public ResponseEntity<ApiResponse<?>> changeCommentStatus(@RequestParam String commentId,
+                                                              @RequestParam boolean status) {
         return ResponseEntity.ok(commentService.changeCommentStatus(commentId, status));
     }
 
     @GetMapping("/get-notifications")
-    public ResponseEntity<PagedModel<EntityModel<Notification>>> getNotifications(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PagedModel<EntityModel<Notification>>> getNotifications(@RequestParam int page,
+                                                                                  @RequestParam int size) {
         return ResponseEntity.ok(notificationService.getAllNotifications(page, size));
     }
 
     @PatchMapping("/deactivate-notifications")
     public void deactivateNotifications() {
         notificationService.deactivateAllNotifications();
+    }
+
+    @GetMapping("/getAllFashionCollection")
+    public ResponseEntity<Page<FashionCollectionDto>> getAllFashionCollection(Pageable pageable) {
+        return ResponseEntity.ok(fashionCollectionService.getAllFashionCollection(pageable));
+    }
+
+    @GetMapping("/getFashionCollection")
+    public ResponseEntity<FashionCollectionDto> getFashionCollection(@RequestParam String id) {
+        return ResponseEntity.ok(fashionCollectionService.getFashionCollection(id));
+    }
+
+    @PostMapping("/createFashionCollection")
+    public ResponseEntity<ApiResponse<?>> createFashionCollection(@ModelAttribute CreateFashionCollectionRequest req) {
+        return ResponseEntity.ok(fashionCollectionService.createFashionCollection(req));
+    }
+
+    @PutMapping("/updateFashionCollection")
+    public ResponseEntity<ApiResponse<?>> updateFashionCollection(@ModelAttribute UpdateFashionCollectionRequest req) {
+        return ResponseEntity.ok(fashionCollectionService.updateFashionCollection(req));
+    }
+
+    @DeleteMapping("/deleteFashionCollection")
+    public ResponseEntity<ApiResponse<?>> deleteFashionCollection(@RequestParam String id) {
+        return  ResponseEntity.ok(fashionCollectionService.deleteFashionCollection(id));
     }
 }

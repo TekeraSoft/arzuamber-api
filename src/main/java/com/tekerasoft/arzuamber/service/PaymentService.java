@@ -277,7 +277,7 @@ public class PaymentService {
             return new ApiResponse<>("Siparişiniz oluşturuldu",null, true);
 
         } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("Error in payAtDoor", e);
         }
     }
 
