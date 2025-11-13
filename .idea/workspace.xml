@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00023214-16a7-4cbe-a186-561c4bfb392a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/FashionCollectionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/FashionCollectionDto.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/CreateFashionCollectionRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/dto/request/UpdateFashionCollectionRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/model/FashionCollection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/repository/FashionCollectionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/FashionCollectionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V2__create_table_fashion_collection.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df302346-622a-473e-a69a-45fb672c36d9/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/df302346-622a-473e-a69a-45fb672c36d9/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f6716f94-b66c-4861-941b-ea984bcc9e60/storage_v2/_src_/database/arzuamber-db.1NzF9Q/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tekerasoft/arzuamber/service/ProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -259,7 +240,7 @@
       <workItem from="1756886787040" duration="2708000" />
       <workItem from="1757679944686" duration="2594000" />
       <workItem from="1757746747843" duration="21000" />
-      <workItem from="1763039634511" duration="4755000" />
+      <workItem from="1763039634511" duration="8380000" />
     </task>
     <servers />
   </component>

@@ -37,7 +37,11 @@ public class PaymentService {
     private final SimpMessagingTemplate messagingTemplate;
     private final MailService mailService;
 
-    public PaymentService(Options options, OrderService orderService, ProductService productService, SimpMessagingTemplate messagingTemplate, MailService mailService) {
+    public PaymentService(Options options,
+                          OrderService orderService,
+                          ProductService productService,
+                          SimpMessagingTemplate messagingTemplate,
+                          MailService mailService) {
         this.options = options;
         this.orderService = orderService;
         this.productService = productService;
