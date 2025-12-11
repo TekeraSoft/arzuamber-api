@@ -26,9 +26,11 @@ services:
     environment:
       MINIO_ROOT_USER: arzuamber_user
       MINIO_ROOT_PASSWORD: arzuamber_pass
+      MINIO_CONSOLE_SUBPATH: /minio-console/
+      MINIO_BROWSER_REDIRECT_URL: https://arzuamber.com/minio-console
     volumes:
       - minio_data:/data
-    command: server --console-address ":9001" /data
+    command: server /data --address ":9000" --console-address ":9001"
     #    command: server --console-address ":9001" http://minio{1...4}/data
     networks:
       - my-network
