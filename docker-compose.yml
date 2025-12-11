@@ -12,7 +12,8 @@ services:
     networks:
       - my-network
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Veritabanı verilerini hostta sakla
+      # DİKKAT: Artık /var/lib/postgresql'e mount ediyoruz, /data değil
+      - arzuamber-db-data:/var/lib/postgresql
     restart: unless-stopped  # Sistem yeniden başlarsa veri kaybolmaz
 
   # MinIO (Blob Storage)
@@ -66,7 +67,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data:  # PostgreSQL için volume tanımı
+  arzuamber-db-data:
   minio_data:     # MinIO için volume tanımı
 
 networks:
